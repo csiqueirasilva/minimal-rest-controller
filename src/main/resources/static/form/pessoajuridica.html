@@ -1,0 +1,23 @@
+<div class="form-group" ng-class="{ 'has-error': (form.nome.$dirty || form.nome.$touched) && form.nome.$invalid }">
+	<label class="control-label" for="nome">Nome Fantasia<font color="red">*</font>:</label>
+	<input type="name" class="form-control" name="nome" ng-model="vm.user.nome" ng-model-options="{ updateOn: 'blur' }" minlength="4"
+		   placeholder="Entre com o nome completo" required>
+	<span ng-show="(form.nome.$dirty || form.nome.$touched) && form.nome.$error.required" class="help-block">O nome fantasia é obrigatório</span>
+	<span ng-show="(form.nome.$dirty || form.nome.$touched) && form.nome.$error.minlength" class="help-block">O nome fantasia deve ter no minimo quatro digitos</span>
+</div>
+
+<div class="form-group" ng-class="{ 'has-error': (form.cnpj.$dirty || form.cnpj.$touched) && form.cnpj.$invalid }">
+	<label class="control-label" for="cnpj">CNPJ<font color="red">*</font>:</label>
+	<input type="text" class="form-control" name="cnpj" id="cnpj" ng-model="vm.user.cnpj" ng-model-options="{ updateOn: 'blur' }"
+		   ui-mask="99.999.999/9999-99" required>
+	<span ng-show="(form.cnpj.$dirty || form.cnpj.$touched) && form.cnpj.$error.required" class="help-block">O CNPJ é obrigatório</span>
+</div>
+
+<div class="form-group" ng-class="{ 'has-error': (form.telefone.$dirty || form.telefone.$touched) && form.telefone.$invalid }">
+	<label class="control-label" for="telefone">Telefone Principal<font color="red">*</font>:</label>
+	<input type="text" class="form-control" name="telefone" id="telefone" ng-model="vm.user.telefone" ng-model-options="{ updateOn: 'blur' }"
+		   ui-mask="(99) 9999-9999" required>
+	<span ng-show="(form.telefone.$dirty || form.telefone.$touched) && form.telefone.$error.required" class="help-block">O telefone é obrigatório</span>
+</div>
+
+<div ng-include="'form/usuario.html'"></div>

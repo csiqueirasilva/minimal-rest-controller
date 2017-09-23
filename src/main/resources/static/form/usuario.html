@@ -33,57 +33,6 @@
 	<span ng-show="(form.senhaconf.$dirty || form.senhaconf.$touched) && form.senhaconf.$error.equals" class="help-block">As senhas são diferentes</span>
 </div>
 
-<div class="form-group" ng-class="{ 'has-error': (form.nome.$dirty || form.nome.$touched) && form.nome.$invalid }">
-	<label class="control-label" for="nome">Nome Completo<font color="red">*</font>:</label>
-	<input type="name" class="form-control" name="nome" ng-model="vm.user.nome" ng-model-options="{ updateOn: 'blur' }" minlength="4"
-		   placeholder="Entre com o nome completo" required>
-	<span ng-show="(form.nome.$dirty || form.nome.$touched) && form.nome.$error.required" class="help-block">O nome é obrigatório</span>
-	<span ng-show="(form.nome.$dirty || form.nome.$touched) && form.nome.$error.minlength" class="help-block">O nome deve ter no minimo quatro digitos</span>
-</div>
-
-<div class="form-group" ng-class="{ 'has-error': (form.sexo.$dirty || form.sexo.$touched) && form.sexo.$invalid }">
-	<label class="control-label">Sexo<font color="red">*</font>:</label>
-	<label class="radio-inline"><input type="radio" name="sexo" ng-model="vm.user.sexo" ng-model-options="{ updateOn: 'blur' }" value="masc" required>Masculino</label>
-	<label class="radio-inline"><input type="radio" name="sexo" ng-model="vm.user.sexo" ng-model-options="{ updateOn: 'blur' }" value="fem" required>Feminino</label>
-	<span ng-show="(form.sexo.$dirty || form.sexo.$touched) && form.sexo.$error.required" class="help-block">O sexo é obrigatório</span>
-</div>
-
-<div class="form-group" ng-class="{ 'has-error': (form.cpf.$dirty || form.cpf.$touched) && form.cpf.$invalid }">
-	<label class="control-label" for="cpf">CPF<font color="red">*</font>:</label>
-	<input type="text" class="form-control" name="cpf" id="cpf" ng-model="vm.user.cpf" ng-model-options="{ updateOn: 'blur' }"
-		   ui-mask="999.999.999-99" required>
-	<span ng-show="(form.cpf.$dirty || form.cpf.$touched) && form.cpf.$error.required" class="help-block">O cpf é obrigatório</span>
-</div>
-
-<div class="form-group" ng-class="{ 'has-error': ((form.dataNascimento.$dirty || form.dataNascimento.$touched) && form.dataNascimento.$error.required) }">
-	<label class="control-label" for="dataNascimento">Data de Nascimento<font color="red">*</font>:</label>
-
-	<p class="input-group">
-		<input 
-			uib-datepicker-popup="ddMMyyyy" is-open="dtNascimentoDados.popup" datepicker-options="dateOptions" show-button-bar="false"
-			type="text" class="form-control" ng-model="vm.user.dataNascimento" name="dataNascimento" ui-mask="99/99/9999" ng-model-options="{ updateOn: 'blur' }" required>
-		<span class="input-group-btn">
-			<button type="button" ng-click="dtNascimentoPick()" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
-		</span>
-	</p>
-
-	<span ng-show="(form.dataNascimento.$dirty || form.dataNascimento.$touched) && form.dataNascimento.$error.required" class="help-block">A data de nascimento é obrigatória</span>
-</div>
-
-<div class="form-group" ng-class="{ 'has-error': (form.telefone.$dirty || form.telefone.$touched) && form.telefone.$invalid }">
-	<label class="control-label" for="telefone">Telefone<font color="red">*</font>:</label>
-	<input type="text" class="form-control" name="telefone" id="telefone" ng-model="vm.user.telefone" ng-model-options="{ updateOn: 'blur' }"
-		   ui-mask="(99) 9999-9999" required>
-	<span ng-show="(form.telefone.$dirty || form.telefone.$touched) && form.telefone.$error.required" class="help-block">O telefone é obrigatório</span>
-</div>
-
-<div class="form-group" ng-class="{ 'has-error': (form.celular.$dirty || form.celular.$touched) && form.celular.$invalid }">
-	<label class="control-label" for="celular">Celular:</label>
-	<input type="text" class="form-control" name="celular" id="celular" ng-model="vm.user.celular" ng-model-options="{ updateOn: 'blur' }"
-		   ui-mask="(99) 99999-9999">
-	<span ng-show="(form.celular.$dirty || form.celular.$touched) && form.celular.$invalid" class="help-block">O celular é inválido</span>
-</div>
-
 <div class="form-group" ng-class="{ 'has-error': (form.logradouro.$dirty || form.logradouro.$touched) && form.logradouro.$invalid }">
 	<label class="control-label" for="logradouro">Endereço<font color="red">*</font>:</label>
 	<input type="text" class="form-control" name="logradouro" ng-model="vm.user.logradouro" ng-model-options="{ updateOn: 'blur' }" placeholder="Entre com o endereço"
@@ -145,10 +94,4 @@
 		<option value="TO">TO
 	</select>
 	<span ng-show="(form.estado.$dirty || form.estado.$touched) && form.estado.$error.required" class="help-block">O estado é obrigatório</span>
-</div>
-
-<div class="form-actions">
-	<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || vm.dataLoading">Enviar</button>
-	<img ng-if="vm.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-	<a href="#!" class="btn btn-link">Cancelar</a>
 </div>
