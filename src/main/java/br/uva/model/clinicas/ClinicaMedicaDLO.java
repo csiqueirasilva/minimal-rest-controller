@@ -1,17 +1,30 @@
-package br.uva.model.clinica;
+package br.uva.model.clinicas;
 
+import br.uva.model.clinicas.exames.ExameMedico;
+import br.uva.model.clinica.medicos.MedicoClinica;
 import br.uva.model.clinica.especialidades.Especialidade;
 import br.uva.model.clinica.buscas.BuscaDLO;
 import br.uva.model.clinica.especialidades.EspecialidadeDLO;
+import br.uva.model.user.RoleUsuario;
+import br.uva.model.user.RoleUsuarioDAO;
+import br.uva.model.user.UsuarioDLO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -22,7 +35,7 @@ public class ClinicaMedicaDLO {
 
 	private final static int PAGE_SIZE = 10;
 
-	private final static int RNG_TEST_NUMBER = 158;
+	private final static int RNG_TEST_NUMBER = 26;
 
 	private final static String[] LISTA_NOMES = {"Michael", "Jackson", "Golias", "Almirante", "Nacional", "Japones", "Coreano", "Chinesa", "Arte Milenar", "Jacinto", "Leite", "Milenar", "Teste", "Bangu", "Alameda", "Caxias", "Leblon", "Rural", "Economica", "Bom Jesus", "Santo Milagre", "De Santos", "Últimas Horas", "Maria", "Jardim", "Macarena", "Contoso", "Microsoft", "Delphi", "Debian", "Levanta até Defunto", "Coisas da Vida"};
 
@@ -33,7 +46,16 @@ public class ClinicaMedicaDLO {
 	private BuscaDLO buscaDLO;
 
 	@Autowired
+	private UsuarioDLO usuarioDLO;
+
+	@Autowired
 	private EspecialidadeDLO especialidadeDLO;
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Autowired
+	private RoleUsuarioDAO roleDAO;
 
 	private Page<ClinicaMedica> busca(String query, TipoAtendimento tipo, Integer pageNumber) {
 		PageRequest req = new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.ASC, "nome");
@@ -77,14 +99,39 @@ public class ClinicaMedicaDLO {
 		return intAleatorio(2) == 1;
 	}
 
+	@Transactional
 	public void criarDadosTeste() {
 
 		int max = RNG_TEST_NUMBER;
-
+		
+		RoleUsuario roleMedico = roleDAO.findByRole("MEDICO");
+		RoleUsuario roleClinica = roleDAO.findByRole("CLINICA");
+		
 		for (int i = 0; i < max; i++) {
 			ClinicaMedica cm = new ClinicaMedica();
-			cm.setEndereco("Rua " + nomeAleatorio() + " " + intAleatorio(1000));
+
 			cm.setNome("Clínica " + nomeDuploAleatorio());
+			
+			String usernameClinica = cm.getNome().toLowerCase().replaceAll("[^a-z]+", "");
+			
+			cm.setUsername(usernameClinica + (Math.random() * 1000));
+			cm.setEmail(cm.getUsername() + "@" + usernameClinica + ".com");
+			Set<RoleUsuario> rolesClinica = new TreeSet<>();
+			rolesClinica.add(roleClinica);
+			cm.setRoles(rolesClinica);
+			cm.setActive(true);
+			cm.setPassword(bCryptPasswordEncoder.encode("123456"));
+
+			cm.setTelefone("1111-1111");
+			cm.setLogradouro("Rua " + nomeAleatorio());
+			cm.setNumend(intAleatorio(1000));
+			cm.setCep("12345-123");
+			cm.setEstado("RJ");
+			cm.setCidade("Rio de Janeiro");
+
+			cm.setCnpj("33555921000170");
+			
+			cm.setEmailDeContato("contato@" + usernameClinica + ".com");
 			cm.setTipoAtendimento(bool() ? TipoAtendimento.GRATUITO : TipoAtendimento.PRIVADO);
 
 			if (bool()) {
@@ -98,9 +145,35 @@ public class ClinicaMedicaDLO {
 			int nMedicos = 1 + intAleatorio(3);
 			for (int j = 0; j < nMedicos; j++) {
 				MedicoClinica mc = new MedicoClinica();
-				mc.setNome(nomeDuploAleatorio());
+				String nomeMedico = nomeDuploAleatorio();
+				mc.setNome(nomeMedico);
 				mc.setCRM(UUID.randomUUID().toString());
 				mc.setTitulo(bool() ? "Dr." : "Professor Doutor");
+				mc.setCelular("12345-4444");
+				mc.setCep("12345-123");
+				mc.setEstado("RJ");
+				mc.setCidade("Rio de Janeiro");
+				mc.setCpf("11111111111");
+				try {
+					mc.setDataNascimento(new SimpleDateFormat("dd/MM/yyyy").parse("10/10/1970"));
+				} catch (ParseException ex) {
+					Logger.getLogger(ClinicaMedicaDLO.class.getName()).log(Level.SEVERE, null, ex);
+				}
+
+				mc.setLogradouro("Rua Almirante Dado de Teste");
+				mc.setNumend(123);
+				mc.setPassword(bCryptPasswordEncoder.encode("123456"));
+				Set<RoleUsuario> roles = new TreeSet<>();
+				roles.add(roleMedico);
+				mc.setRoles(roles);
+				mc.setActive(true);
+				mc.setSexo(Math.random() > 0.5 ? "F" : "M");
+				mc.setTelefone("1234-4321");
+
+				String username = nomeMedico.toLowerCase().replaceAll("[^a-z]", "") + (Math.random() * 1000);
+				mc.setUsername(username);
+				mc.setEmail(username + "@" + cm.getNome().toLowerCase().replaceAll("[^a-z]+", "") + ".com");
+
 				cm.getMedicoClinica().add(mc);
 			}
 
@@ -108,7 +181,7 @@ public class ClinicaMedicaDLO {
 
 			Iterable<Especialidade> findAll = especialidadeDLO.findAll();
 
-			List<Especialidade> especialidades = new ArrayList<Especialidade>();
+			List<Especialidade> especialidades = new ArrayList<>();
 			findAll.forEach(especialidades::add); // JDK 8
 
 			for (int j = 0; j < nEspecialidades; j++) {
@@ -116,19 +189,15 @@ public class ClinicaMedicaDLO {
 			}
 
 			int nTelefones = 2 + intAleatorio(3);
-			
-			for(int j = 0; j < nTelefones; j++) {
+
+			for (int j = 0; j < nTelefones; j++) {
 				String tel = "";
-				for(int k = 0; k < 10; k++) {
+				for (int k = 0; k < 10; k++) {
 					tel += intAleatorio(10);
 				}
-				cm.getTelefones().add(tel);
+				cm.getTelefonesDeContato().add(tel);
 			}
-			
-			String email = "contato@" + cm.getNome().toLowerCase().replaceAll("[^a-z]+","") + ".com";
 
-			cm.setEmail(email);
-			
 			dao.save(cm);
 		}
 

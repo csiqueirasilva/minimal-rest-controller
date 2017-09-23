@@ -4,8 +4,8 @@
 		_lastStroke = 0,
 		INTERVAL_STROKE_FETCH = 800;
 
-	var app = angular.module('clinica', ['ui.mask', 'ui.bootstrap', 'ui.bootstrap.tpls', 'ngSanitize', 'ngAnimate', 'ngRoute', 'ngCookies']);
-	
+	var app = angular.module('clinica', ['ui.mask', 'ui.bootstrap', 'ui.bootstrap.tpls', "ui.bootstrap.datepicker", "ui.bootstrap.datepickerPopup", 'ngSanitize', 'ngAnimate', 'ngRoute', 'ngCookies']);
+
 	app.config(function ($routeProvider, $httpProvider) {
 
 		$routeProvider
@@ -26,7 +26,7 @@
 				templateUrl: "registro.html",
 			})
 			.when("/registro/admin", {
-				templateUrl: "registroadmin.html",
+				templateUrl: "form/admin.html",
 				controller: "RegistroAdmController",
 				controllerAs: 'vm'
 			})
@@ -39,23 +39,22 @@
 				redirectTo: "/"
 			});
 
-			$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+		$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-			$httpProvider.interceptors.push(function($q, $location, FlashService) {
-				return {
-					'responseError': function(rejection) {
-						if (rejection.status==401) {
-							$location.path('/');
+		$httpProvider.interceptors.push(function ($q, $location, FlashService) {
+			return {
+				'responseError': function (rejection) {
+					if (rejection.status === 401) {
+						$location.path('/');
 
-						}
-						else if (rejection.status==404){
-							FlashService.Error('Pagina nao encontrada', true);
-							$location.path('/');
-						}
-						return $q.reject(rejection);
+					} else if (rejection.status === 404) {
+						FlashService.Error('Pagina nao encontrada', true);
+						$location.path('/');
 					}
-				};
-			});
+					return $q.reject(rejection);
+				}
+			};
+		});
 	});
 
 	app.run(function ($rootScope, $interval) {
@@ -171,11 +170,24 @@
 	});
 
 	app.controller('RegistroAdmController', RegistroAdmController);
-	RegistroAdmController.$inject = ['$location', '$rootScope','$window', 'FlashService', 'UserService'];
+	RegistroAdmController.$inject = ['$location', '$rootScope', '$window', 'FlashService', 'UserService'];
 	function RegistroAdmController($location, $rootScope, $window, FlashService, UserService) {
 		var vm = this;
 
 		vm.register = register;
+
+		$rootScope.dateOptions = {
+			maxDate: new Date(),
+			minDate: new Date(1920, 0, 1)
+		};
+
+		$rootScope.dtNascimentoDados = {};
+
+		$rootScope.dtNascimentoDados.popup = false;
+
+		$rootScope.dtNascimentoPick = function () {
+			$rootScope.dtNascimentoDados.popup = true;
+		};
 
 		function register() {
 			vm.dataLoading = true;
@@ -183,7 +195,7 @@
 				.then(function (response) {
 					vm.dataLoading = false;
 					if (response.success) {
-						if(response.body.status == 201){
+						if (response.body.status === 201) {
 							FlashService.Success('Registro bem sucedido', true);
 							$location.path('/');
 						}
@@ -199,94 +211,96 @@
 	LoginController.$inject = ['$http', '$location', '$rootScope', 'FlashService', '$window'];
 	function LoginController($http, $location, $rootScope, FlashService, $window) {
 
-		var vm = this
+		var vm = this;
 
-		var authenticate = function(credentials, callback) {
+		var authenticate = function (credentials, callback) {
 
-			var headers = credentials ? {authorization : "Basic "
-				+ btoa(credentials.username + ":" + credentials.password)
+			var headers = credentials ? {authorization: "Basic "
+					+ btoa(credentials.username + ":" + credentials.password)
 			} : {};
 
-			$http.get('login', {headers : headers}).then(function(response) {
-			if (response.data.name) {
-				$rootScope.authenticated = true;
-			} else {
+			$http.get('login', {headers: headers}).then(function (response) {
+				if (response.data.name) {
+					$rootScope.authenticated = true;
+				} else {
+					$rootScope.authenticated = false;
+				}
+				callback && callback();
+			}, function () {
 				$rootScope.authenticated = false;
-			}
-			callback && callback();
-			}, function() {
-			$rootScope.authenticated = false;
-			callback && callback();
+				callback && callback();
 			});
-		}
+		};
 
 		authenticate();
 
 		vm.credentials = {};
-		vm.login = function() {
-			authenticate(vm.credentials, function() {
-			  if ($rootScope.authenticated) {
-				$location.path("/admin");
-			  } else {
-				FlashService.Error('Falha ao logar, verifique se o usuario e a senha estao corretos', true);
-			  }
+		vm.login = function () {
+			authenticate(vm.credentials, function () {
+				if ($rootScope.authenticated) {
+					$location.path("/admin");
+				} else {
+					FlashService.Error('Falha ao logar, verifique se o usuario e a senha estao corretos', true);
+				}
 			});
 		};
 
-		vm.logout = function() {
-			$http.post('/logout', {}).finally(function() {
-			  $window.location.reload();
-			  $rootScope.authenticated = false;
+		vm.logout = function () {
+			$http.post('/logout', {}).finally(function () {
+				$window.location.reload();
+				$rootScope.authenticated = false;
 			});
-		  }
+		};
 
 	}
+	;
 
 	app.controller('AdminController', AdminController);
-	AdminController.$inject = ['$rootScope', '$location', '$http', 'UserService','$window'];
-    function AdminController( $rootScope, $location, $http,  UserService, $window) {
-        var vm = this;
-        vm.allUsers = [];
+	AdminController.$inject = ['$rootScope', '$location', '$http', 'UserService', '$window'];
+	function AdminController($rootScope, $location, $http, UserService, $window) {
+		var vm = this;
+		vm.allUsers = [];
 
-		vm.logout = function() {
-			$http.post('/logout', {}).finally(function() {
-			  $location.path("/");
-			  $window.location.reload();
-			  $rootScope.authenticated = false;
+		vm.logout = function () {
+			$http.post('/logout', {}).finally(function () {
+				$location.path("/");
+				$window.location.reload();
+				$rootScope.authenticated = false;
 			});
+		};
+
+		initController();
+
+		function initController() {
+			loadCurrentUser();
+			loadAllUsers();
 		}
 
-        initController();
-
-        function initController() {
-            loadCurrentUser(); 
-            loadAllUsers();
-        }
-
-        function loadCurrentUser() {
-			$http.get('login', {}).then(function(response) {
+		function loadCurrentUser() {
+			$http.get('login', {}).then(function (response) {
 				if (response.data.name) {
 					vm.user = response.data.name;
 				} else {
 					$rootScope.authenticated = false;
 				}
 			});
-        }
+		}
 
-        function loadAllUsers() {
-            UserService.GetAll()
-                .then(function (users) {
-                    vm.allUsers = users.body.data;
-                });
-        }
-    }
+		function loadAllUsers() {
+			UserService.GetAll()
+				.then(function (users) {
+					vm.allUsers = users.body.data;
+				});
+		}
+	}
 
 	app.directive('equals', function () {
 		return {
 			restrict: 'A', // only activate on element attribute
 			require: '?ngModel', // get a hold of NgModelController
 			link: function (scope, elem, attrs, ngModel) {
-				if (!ngModel) return; // do nothing if no ng-model
+				if (!ngModel)
+					return; // do nothing if no ng-model
 
 				// watch own value and re-validate on change
 				scope.$watch(attrs.ngModel, function () {

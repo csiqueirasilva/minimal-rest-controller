@@ -1,33 +1,41 @@
 package br.uva.model.user;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "role")
-public class Role {
+public class RoleUsuario implements Serializable, Comparable {
+	
 	@Id
     @GeneratedValue
-	@Column(name="role_id")
-	private int id;
-	@Column(name="role")
+	@Column
+	private Long id;
+	
+	@Column(unique = true)
 	private String role;
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+
+	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getRole() {
 		return role;
 	}
+	
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
+
+	@Override
+	public int compareTo(Object o) {
+		return this.role.compareTo(((RoleUsuario) o).getRole());
+	}
 	
 }

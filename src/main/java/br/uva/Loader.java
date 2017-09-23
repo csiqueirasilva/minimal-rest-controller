@@ -5,7 +5,7 @@
  */
 package br.uva;
 
-import br.uva.model.clinica.ClinicaMedicaDLO;
+import br.uva.model.clinicas.ClinicaMedicaDLO;
 import br.uva.model.clinica.especialidades.EspecialidadeDLO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;

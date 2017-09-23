@@ -1,4 +1,4 @@
-package br.uva.model.clinica;
+package br.uva.model.clinicas.exames;
 
 import java.io.Serializable;
 import javax.persistence.Column;

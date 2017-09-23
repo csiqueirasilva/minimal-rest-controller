@@ -5,9 +5,9 @@
  */
 package br.uva.services.controllers;
 
-import br.uva.model.clinica.ClinicaMedica;
-import br.uva.model.clinica.ClinicaMedicaDLO;
-import br.uva.model.clinica.TipoAtendimento;
+import br.uva.model.clinicas.ClinicaMedica;
+import br.uva.model.clinicas.ClinicaMedicaDLO;
+import br.uva.model.clinicas.TipoAtendimento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

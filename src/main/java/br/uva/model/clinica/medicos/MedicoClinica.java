@@ -1,6 +1,7 @@
-package br.uva.model.clinica;
+package br.uva.model.clinica.medicos;
 
-import java.io.Serializable;
+import br.uva.model.clinicas.pessoas.fisicas.PessoaFisica;
+import br.uva.model.user.Usuario;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +12,7 @@ import javax.persistence.Id;
  * @author csiqueira
  */
 @Entity
-public class MedicoClinica implements Serializable {
+public class MedicoClinica extends PessoaFisica {
 	
 	@Id
 	@GeneratedValue
@@ -19,9 +20,6 @@ public class MedicoClinica implements Serializable {
 	
 	@Column(unique = true)
 	private String CRM;
-	
-	@Column
-	private String nome;
 
 	@Column
 	private String titulo;
@@ -34,10 +32,12 @@ public class MedicoClinica implements Serializable {
 		this.titulo = titulo;
 	}
 	
+	@Override
 	public Long getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -48,14 +48,6 @@ public class MedicoClinica implements Serializable {
 
 	public void setCRM(String CRM) {
 		this.CRM = CRM;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 	
 }

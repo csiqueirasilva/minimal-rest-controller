@@ -1,6 +1,9 @@
-package br.uva.model.clinica;
+package br.uva.model.clinicas;
 
+import br.uva.model.clinicas.exames.ExameMedico;
+import br.uva.model.clinica.medicos.MedicoClinica;
 import br.uva.model.clinica.especialidades.Especialidade;
+import br.uva.model.clinicas.pessoas.juridicas.PessoaJuridica;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
@@ -24,14 +27,11 @@ import javax.persistence.OneToMany;
  * @author csiqueira
  */
 @Entity
-public class ClinicaMedica implements Serializable {
+public class ClinicaMedica extends PessoaJuridica {
 
 	@Id
 	@GeneratedValue
 	private Long id;
-
-	@Column(nullable = false)
-	private String nome;
 
 	@ManyToMany
 	@JsonIgnore
@@ -41,9 +41,6 @@ public class ClinicaMedica implements Serializable {
 	@Column(nullable = false)
 	private TipoAtendimento tipoAtendimento;
 
-	@Column(nullable = false)
-	private String endereco;
-
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<ExameMedico> exames;
@@ -52,25 +49,25 @@ public class ClinicaMedica implements Serializable {
 	private List<MedicoClinica> medicos;
 
 	@Column
-	private String email;
+	private String emailDeContato;
 	
 	@ElementCollection
-	private Set<String> telefones;
+	private Set<String> telefonesDeContato;
 
-	public String getEmail() {
-		return email;
+	public String getEmailDeContato() {
+		return emailDeContato;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmailDeContato(String emailDeContato) {
+		this.emailDeContato = emailDeContato;
 	}
 
-	public Set<String> getTelefones() {
-		return telefones;
+	public Set<String> getTelefonesDeContato() {
+		return telefonesDeContato;
 	}
 
-	public void setTelefones(Set<String> telefones) {
-		this.telefones = telefones;
+	public void setTelefonesDeContato(Set<String> telefonesDeContato) {
+		this.telefonesDeContato = telefonesDeContato;
 	}
 	
 	@JsonProperty("exames")
@@ -97,19 +94,11 @@ public class ClinicaMedica implements Serializable {
 	
 	public ClinicaMedica() {
 		this.especialidades = new TreeSet<Especialidade>();
-		this.telefones = new TreeSet<String>();
+		this.telefonesDeContato = new TreeSet<String>();
 		this.exames = new ArrayList<ExameMedico>();
 		this.medicos = new ArrayList<MedicoClinica>();
 	}
 	
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
 	public Set<Especialidade> getEspecialidades() {
 		return especialidades;
 	}
@@ -124,14 +113,6 @@ public class ClinicaMedica implements Serializable {
 
 	public void setTipoAtendimento(TipoAtendimento tipoAtendimento) {
 		this.tipoAtendimento = tipoAtendimento;
-	}
-
-	public String getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
 	}
 
 	public List<ExameMedico> getExames() {
@@ -158,10 +139,12 @@ public class ClinicaMedica implements Serializable {
 		this.medicos = medicos;
 	}
 	
+	@Override
 	public Long getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}

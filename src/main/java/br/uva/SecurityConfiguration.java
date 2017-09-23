@@ -15,44 +15,46 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-	
 
-    	@Autowired
-    	private BCryptPasswordEncoder bCryptPasswordEncoder;
-    	
-    	@Autowired
-    	private DataSource dataSource;
-    	
-    	@Value("${spring.queries.users-query}")
-    	private String usersQuery;
-    	
-    	@Value("${spring.queries.roles-query}")
-    	private String rolesQuery;
-    	
-      @Override
-      protected void configure(HttpSecurity http) throws Exception {
-        http
-        	.httpBasic().and()
-			.authorizeRequests()
-			.antMatchers("/admin.html","/admin/**").hasAuthority("ADMIN")
-          	.and().
-	       	csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-      }
-      @Override
-      public void configure(WebSecurity web) throws Exception {
-          web
-             .ignoring()
-             .antMatchers("/resources/**","/static/**");
-      }
-      
-  	@Autowired
-  	protected void configureGlobal(AuthenticationManagerBuilder auth)
-  			throws Exception {
-  		auth.
-			jdbcAuthentication()
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	@Autowired
+	private DataSource dataSource;
+
+	@Value("${spring.queries.users-query}")
+	private String usersQuery;
+
+	@Value("${spring.queries.roles-query}")
+	private String rolesQuery;
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+				.httpBasic().and()
+				.authorizeRequests()
+				.antMatchers("/admin.html", "/admin/**").hasAuthority("ADMIN")
+				.antMatchers("/console/**", "/login/**", "/login").permitAll()
+				.and()
+				.csrf().disable()
+				.headers().frameOptions().disable();
+	}
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web
+				.ignoring()
+				.antMatchers("/resources/**", "/static/**");
+	}
+
+	@Autowired
+	protected void configureGlobal(AuthenticationManagerBuilder auth)
+			throws Exception {
+		auth.
+				jdbcAuthentication()
 				.usersByUsernameQuery(usersQuery)
 				.authoritiesByUsernameQuery(rolesQuery)
 				.dataSource(dataSource)
 				.passwordEncoder(bCryptPasswordEncoder);
-  		}
+	}
 }
