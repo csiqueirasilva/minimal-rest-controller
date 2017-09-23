@@ -1,1 +1,29 @@
-<h1>Medico Cad</h1>
+<div class="container">
+    <div class="col-sm-12">
+        <div class="page-header">
+            <h2>Formulário de cadastro para Médico</h2>
+            <h3>Por favor preecha o formulário abaixo</h3>
+        </div>
+
+		<form ng-submit="vm.register()" name="form" role="form" novalidate>
+
+			<div class="form-group" ng-class="{ 'has-error': (form.titulo.$dirty || form.titulo.$touched) && form.titulo.$invalid }">
+				<label class="control-label" for="titulo">Título<font color="red">*</font>:</label>
+				<input type="name" class="form-control" name="titulo" ng-model="vm.user.titulo" ng-model-options="{updateOn: 'blur'}" minlength="2"
+					   placeholder="Entre com o título do médico" required>
+				<span ng-show="(form.titulo.$dirty || form.titulo.$touched) && form.titulo.$error.required" class="help-block">O título é obrigatório</span>
+				<span ng-show="(form.titulo.$dirty || form.titulo.$touched) && form.titulo.$error.minlength" class="help-block">O título deve ter no minimo dois digitos</span>
+			</div>
+
+			<div class="form-group" ng-class="{ 'has-error': (form.crm.$dirty || form.crm.$touched) && form.crm.$invalid }">
+				<label class="control-label" for="crm">Número CRM<font color="red">*</font>:</label>
+				<input type="number" class="form-control" name="crm" ng-model="vm.user.crm" ng-model-options="{updateOn: 'blur'}" placeholder="Entre com o crm completo" required>
+				<span ng-show="(form.crm.$dirty || form.crm.$touched) && form.crm.$error.required" class="help-block">O crm é obrigatório</span>
+			</div>
+
+			<div ng-include="'form/pessoafisica.html'"></div>
+			<div ng-include="'form/form-submit.html'"></div>
+		</form>
+
+    </div>
+</div>

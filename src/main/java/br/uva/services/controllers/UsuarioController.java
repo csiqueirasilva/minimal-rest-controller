@@ -20,7 +20,7 @@ import br.uva.model.user.UsuarioDLO;
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UsuarioController {
 
     @Autowired
 	private UsuarioDLO userService;

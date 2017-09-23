@@ -18,13 +18,7 @@ public class MedicoClinicaDLO {
 	private MedicoClinicaDAO userRepository;
 	
 	@Autowired
-    private RoleUsuarioDAO roleRepository;
-	
-	@Autowired
 	private UsuarioDLO usuarioDLO;
-	
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	public MedicoClinica findByUsername(String username) {
 		return userRepository.findByUsername(username);

@@ -30,6 +30,11 @@
 				controller: "RegistroAdmController",
 				controllerAs: 'vm'
 			})
+			.when("/registro/medico", {
+				templateUrl: "form/medico.html",
+				controller: "RegistroMedicoController",
+				controllerAs: 'vm'
+			})
 			.when("/admin", {
 				templateUrl: "admin.html",
 				controller: "AdminController",
@@ -207,6 +212,44 @@
 		}
 	}
 
+	app.controller('RegistroMedicoController', RegistroMedicoController);
+	RegistroMedicoController.$inject = ['$location', '$rootScope', '$window', 'FlashService', 'MedicoService'];
+	function RegistroMedicoController($location, $rootScope, $window, FlashService, MedicoService) {
+		var vm = this;
+
+		vm.register = register;
+
+		$rootScope.dateOptions = {
+			maxDate: new Date(),
+			minDate: new Date(1920, 0, 1)
+		};
+
+		$rootScope.dtNascimentoDados = {};
+
+		$rootScope.dtNascimentoDados.popup = false;
+
+		$rootScope.dtNascimentoPick = function () {
+			$rootScope.dtNascimentoDados.popup = true;
+		};
+
+		function register() {
+			vm.dataLoading = true;
+			MedicoService.Create(vm.user)
+				.then(function (response) {
+					vm.dataLoading = false;
+					if (response.success) {
+						if (response.body.status === 201) {
+							FlashService.Success('Registro bem sucedido', true);
+							$location.path('/');
+						}
+					} else {
+						FlashService.Error(response.message + ': Nome de usuario ja existe', true);
+						$window.scrollTo(0, 0);
+					}
+				});
+		}
+	}
+
 	app.controller('LoginController', LoginController);
 	LoginController.$inject = ['$http', '$location', '$rootScope', 'FlashService', '$window'];
 	function LoginController($http, $location, $rootScope, FlashService, $window) {
@@ -253,7 +296,7 @@
 		};
 
 	}
-	;
+
 
 	app.controller('AdminController', AdminController);
 	AdminController.$inject = ['$rootScope', '$location', '$http', 'UserService', '$window'];

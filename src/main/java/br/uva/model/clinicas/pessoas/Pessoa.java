@@ -10,6 +10,9 @@ import br.uva.tools.CustomDateDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Date;
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,27 +21,31 @@ import javax.persistence.TemporalType;
  *
  * @author csiqueira
  */
-@MappedSuperclass
+@Entity
 public abstract class Pessoa extends Usuario {
+
+	@Id
+	@GeneratedValue
+	private Long id;
 
 	@Column(nullable = false)
 	private String nome;
 
 	@Column(nullable = false)
 	private String telefone;
-	
+
 	@Column(nullable = false)
 	private String logradouro;
-	
+
 	@Column
 	private int numend;
-	
+
 	@Column(nullable = false)
 	private String cep;
-	
+
 	@Column(nullable = false)
 	private String cidade;
-	
+
 	@Column(nullable = false)
 	private String estado;
 
@@ -97,5 +104,13 @@ public abstract class Pessoa extends Usuario {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 }
