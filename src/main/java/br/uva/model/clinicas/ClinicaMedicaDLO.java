@@ -212,6 +212,10 @@ public class ClinicaMedicaDLO {
 		return cm;
 	}
 
+	public void saveClinica(ClinicaMedica clinica) {
+		dao.save(clinica);
+	}
+	
 	private String nomeDuploAleatorio() {
 		String nome1 = nomeAleatorio();
 		String nome2;

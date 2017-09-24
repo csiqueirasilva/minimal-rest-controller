@@ -52,7 +52,7 @@ public class MedicoController {
         }
         userService.saveUser(user);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
+        headers.setLocation(ucBuilder.path("/medico/{id}").buildAndExpand(user.getId()).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
   
@@ -69,7 +69,6 @@ public class MedicoController {
 
     @RequestMapping(value = "/", method = RequestMethod.DELETE)
     public ResponseEntity<MedicoClinica> deleteAllUsers() {
-  
         userService.deleteAllUsers();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

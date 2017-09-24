@@ -1,7 +1,6 @@
 package br.uva.model.clinica.medicos;
 
 import br.uva.model.clinicas.pessoas.fisicas.PessoaFisica;
-import br.uva.model.user.Usuario;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

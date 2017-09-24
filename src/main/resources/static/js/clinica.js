@@ -6,6 +6,46 @@
 
 	var app = angular.module('clinica', ['ui.mask', 'ui.bootstrap', 'ui.bootstrap.tpls', "ui.bootstrap.datepicker", "ui.bootstrap.datepickerPopup", 'ngSanitize', 'ngAnimate', 'ngRoute', 'ngCookies']);
 
+	/* Private ? */
+	
+	function setupUsuarioRegistro (scope, vm, UserService, window, location, FlashService) {
+	
+		scope.dateOptions = {
+			maxDate: new Date(),
+			minDate: new Date(1920, 0, 1)
+		};
+
+		scope.dtNascimentoDados = {};
+
+		scope.dtNascimentoDados.popup = false;
+
+		scope.dtNascimentoPick = function () {
+			scope.dtNascimentoDados.popup = true;
+		};
+
+		function register() {
+			vm.dataLoading = true;
+			UserService.Create(vm.user)
+				.then(function (response) {
+					vm.dataLoading = false;
+					if (response.success) {
+						if (response.body.status === 201) {
+							FlashService.Success('Registro bem sucedido', true);
+							location.path('/');
+						}
+					} else {
+						FlashService.Error(response.message + ': Nome de usuario ja existe', true);
+						window.scrollTo(0, 0);
+					}
+				});
+		}
+		
+		return register;
+	}
+
+	/* End of private */
+
+
 	app.config(function ($routeProvider, $httpProvider) {
 
 		$routeProvider
@@ -33,6 +73,11 @@
 			.when("/registro/medico", {
 				templateUrl: "form/medico.html",
 				controller: "RegistroMedicoController",
+				controllerAs: 'vm'
+			})
+			.when("/registro/paciente", {
+				templateUrl: "form/paciente.html",
+				controller: "RegistroPacienteController",
 				controllerAs: 'vm'
 			})
 			.when("/admin", {
@@ -178,76 +223,21 @@
 	RegistroAdmController.$inject = ['$location', '$rootScope', '$window', 'FlashService', 'UserService'];
 	function RegistroAdmController($location, $rootScope, $window, FlashService, UserService) {
 		var vm = this;
-
-		vm.register = register;
-
-		$rootScope.dateOptions = {
-			maxDate: new Date(),
-			minDate: new Date(1920, 0, 1)
-		};
-
-		$rootScope.dtNascimentoDados = {};
-
-		$rootScope.dtNascimentoDados.popup = false;
-
-		$rootScope.dtNascimentoPick = function () {
-			$rootScope.dtNascimentoDados.popup = true;
-		};
-
-		function register() {
-			vm.dataLoading = true;
-			UserService.Create(vm.user)
-				.then(function (response) {
-					vm.dataLoading = false;
-					if (response.success) {
-						if (response.body.status === 201) {
-							FlashService.Success('Registro bem sucedido', true);
-							$location.path('/');
-						}
-					} else {
-						FlashService.Error(response.message + ': Nome de usuario ja existe', true);
-						$window.scrollTo(0, 0);
-					}
-				});
-		}
+		vm.register = setupUsuarioRegistro($rootScope, vm, UserService, $window, $location, FlashService);
 	}
 
 	app.controller('RegistroMedicoController', RegistroMedicoController);
 	RegistroMedicoController.$inject = ['$location', '$rootScope', '$window', 'FlashService', 'MedicoService'];
 	function RegistroMedicoController($location, $rootScope, $window, FlashService, MedicoService) {
 		var vm = this;
+		vm.register = setupUsuarioRegistro($rootScope, vm, MedicoService, $window, $location, FlashService);
+	}
 
-		vm.register = register;
-
-		$rootScope.dateOptions = {
-			maxDate: new Date(),
-			minDate: new Date(1920, 0, 1)
-		};
-
-		$rootScope.dtNascimentoDados = {};
-
-		$rootScope.dtNascimentoDados.popup = false;
-
-		$rootScope.dtNascimentoPick = function () {
-			$rootScope.dtNascimentoDados.popup = true;
-		};
-
-		function register() {
-			vm.dataLoading = true;
-			MedicoService.Create(vm.user)
-				.then(function (response) {
-					vm.dataLoading = false;
-					if (response.success) {
-						if (response.body.status === 201) {
-							FlashService.Success('Registro bem sucedido', true);
-							$location.path('/');
-						}
-					} else {
-						FlashService.Error(response.message + ': Nome de usuario ja existe', true);
-						$window.scrollTo(0, 0);
-					}
-				});
-		}
+	app.controller('RegistroPacienteController', RegistroPacienteController);
+	RegistroPacienteController.$inject = ['$location', '$rootScope', '$window', 'FlashService', 'PacienteService'];
+	function RegistroPacienteController($location, $rootScope, $window, FlashService, PacienteService) {
+		var vm = this;
+		vm.register = setupUsuarioRegistro($rootScope, vm, PacienteService, $window, $location, FlashService);
 	}
 
 	app.controller('LoginController', LoginController);
