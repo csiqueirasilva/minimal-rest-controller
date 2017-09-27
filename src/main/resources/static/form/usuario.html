@@ -36,17 +36,15 @@
 <div class="form-group" ng-class="{ 'has-error': (form.logradouro.$dirty || form.logradouro.$touched) && form.logradouro.$invalid }">
 	<label class="control-label" for="logradouro">Endereço<font color="red">*</font>:</label>
 	<input type="text" class="form-control" name="logradouro" ng-model="vm.user.logradouro" ng-model-options="{ updateOn: 'blur' }" placeholder="Entre com o endereço"
-		   required>
+		   required />
 	<span ng-show="(form.logradouro.$dirty || form.logradouro.$touched) && form.logradouro.$error.required" class="help-block">O endereço é obrigatório</span>
 </div>
 
 <div class="form-group" ng-class="{ 'has-error': (form.numend.$dirty || form.numend.$touched) && form.numend.$invalid }">
-	<label class="control-label" for="numend">Numero<font color="red">*</font>:</label>
-	<input type="number" min="0" max="9999" class="form-control" name="numend" ng-model="vm.user.numend" ng-model-options="{ updateOn: 'blur' }"
-		   placeholder="Entre com o numero do endereço" required>
+	<label class="control-label" for="numend">Número<font color="red">*</font>:</label>
+	<input type="text" ui-mask="?9?9?9?9" class="form-control" name="numend" ng-model="vm.user.numend" ng-model-options="{ updateOn: 'blur' }"
+		   required />
 	<span ng-show="(form.numend.$dirty || form.numend.$touched) && form.numend.$error.required" class="help-block">O numero do endereço é obrigatório</span>
-	<span ng-show="(form.numend.$dirty || form.numend.$touched) && form.numend.$error.max" class="help-block">O numero do endereço é invalido</span>
-	<span ng-show="(form.numend.$dirty || form.numend.$touched) && form.numend.$invalid" class="help-block">O numero do endereço é invalido</span>
 </div>
 
 <div class="form-group" ng-class="{ 'has-error': (form.cep.$dirty || form.cep.$touched) && form.cep.$invalid }">
@@ -66,32 +64,32 @@
 <div class="form-group" ng-class="{ 'has-error': (form.estado.$dirty || form.estado.$touched) && form.estado.$invalid }">
 	<label class="control-label" for="estado">Estado<font color="red">*</font>:</label>
 	<select class="form-control" ng-model="vm.user.estado" ng-model-options="{ updateOn: 'blur' }" name="estado" required>
-		<option value="">
-		<option value="AC">AC
-		<option value="AL">AL
-		<option value="AP">AP
-		<option value="AM">AM
-		<option value="BA">BA
-		<option value="CE">CE   
-		<option value="DF">DF
-		<option value="ES">ES
-		<option value="GO">GO     
-		<option value="MA">MA
-		<option value="MG">MG
-		<option value="PA">PA
-		<option value="PB">PB
-		<option value="PR">PR
-		<option value="PE">PE
-		<option value="PI">PI
-		<option value="RJ">RJ
-		<option value="RN">RN
-		<option value="RS">RS
-		<option value="RO">RO
-		<option value="RR">RR   
-		<option value="SC">SC
-		<option value="SP">SP
-		<option value="SE">SE     
-		<option value="TO">TO
+		<option value=""></option>
+		<option value="AC">AC</option>
+		<option value="AL">AL</option>
+		<option value="AP">AP</option>
+		<option value="AM">AM</option>
+		<option value="BA">BA</option>
+		<option value="CE">CE</option>   
+		<option value="DF">DF</option>
+		<option value="ES">ES</option>
+		<option value="GO">GO</option>     
+		<option value="MA">MA</option>
+		<option value="MG">MG</option>
+		<option value="PA">PA</option>
+		<option value="PB">PB</option>
+		<option value="PR">PR</option>
+		<option value="PE">PE</option>
+		<option value="PI">PI</option>
+		<option value="RJ">RJ</option>
+		<option value="RN">RN</option>
+		<option value="RS">RS</option>
+		<option value="RO">RO</option>
+		<option value="RR">RR</option>   
+		<option value="SC">SC</option>
+		<option value="SP">SP</option>
+		<option value="SE">SE</option>     
+		<option value="TO">TO</option>
 	</select>
 	<span ng-show="(form.estado.$dirty || form.estado.$touched) && form.estado.$error.required" class="help-block">O estado é obrigatório</span>
 </div>
