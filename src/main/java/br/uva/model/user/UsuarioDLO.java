@@ -1,9 +1,17 @@
 package br.uva.model.user;
 
+import br.uva.model.clinica.buscas.BuscaDLO;
+import br.uva.model.clinicas.ClinicaMedica;
+import br.uva.model.clinicas.TipoAtendimento;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,66 +19,87 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UsuarioDLO {
 
-	@Autowired
-	private UsuarioDAO userRepository;
+    @Autowired
+    private BuscaDLO buscaDLO;
 
-	@Autowired
-	private RoleUsuarioDAO roleRepository;
+    @Autowired
+    private UsuarioDAO dao;
 
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private RoleUsuarioDAO roleRepository;
 
-	public RoleUsuario getRole(String str) {
-		RoleUsuario ru = null;
-		try {
-			ru = roleRepository.findByRole(str);
-		} catch (Exception e) {
-		}
-		return ru;
-	}
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	public Usuario findByUsername(String username) {
-		return userRepository.findByUsername(username);
-	}
+    public RoleUsuario getRole(String str) {
+        RoleUsuario ru = null;
+        try {
+            ru = roleRepository.findByRole(str);
+        } catch (Exception e) {
+        }
+        return ru;
+    }
 
-	public Usuario findById(Long id) {
-		return userRepository.findOne(id);
-	}
+    public Usuario findByUsername(String username) {
+        return dao.findByUsername(username);
+    }
 
-	public void updateUser(Usuario user) {
-		saveUser(user);
-	}
+    public Usuario findById(Long id) {
+        return dao.findOne(id);
+    }
 
-	public void deleteUserById(Long id) {
-		userRepository.delete(id);
-	}
+    public void updateUser(Usuario user) {
+        saveUser(user);
+    }
 
-	public void deleteAllUsers() {
-		userRepository.deleteAll();
-	}
+    public void deleteUserById(Long id) {
+        dao.delete(id);
+    }
 
-	public Iterable<Usuario> findAllUsers() {
-		return userRepository.findAll();
-	}
+    public void deleteAllUsers() {
+        dao.deleteAll();
+    }
 
-	public boolean isUserExist(Usuario user) {
-		return findByUsername(user.getUsername()) != null;
-	}
+    public Iterable<Usuario> findAllUsers() {
+        return dao.findAll();
+    }
 
-	public void addRoleToUserByName(Usuario user, String roleName) {
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setActive(true);
-		RoleUsuario userRole = roleRepository.findByRole(roleName);
-		user.setRoles(new HashSet<>(Arrays.asList(userRole)));
-	}
+    public boolean isUserExist(Usuario user) {
+        return findByUsername(user.getUsername()) != null;
+    }
 
-	@Transactional
-	public void saveUser(Usuario user) {
-		try {
-			addRoleToUserByName(user, "ADMIN");
-			user = userRepository.save(user);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    public void addRoleToUserByName(Usuario user, String roleName) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setActive(true);
+        RoleUsuario userRole = roleRepository.findByRole(roleName);
+        user.setRoles(new HashSet<>(Arrays.asList(userRole)));
+    }
+
+    @Transactional
+    public void saveUser(Usuario user) {
+        try {
+            addRoleToUserByName(user, "ADMIN");
+            user = dao.save(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private final static int PAGE_SIZE = 10;
+    
+    public Iterable<Usuario> getBusca(String query, Integer pageNumber) {
+
+        PageRequest req = new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.ASC, "username");
+        Page<Usuario> ret = null;
+        String uuid = buscaDLO.criar(query);
+
+        try {
+            ret = dao.busca(uuid, req);
+        } catch (Exception e) {
+        }
+
+        buscaDLO.excluir(uuid);
+        return ret;
+
+    }
 }

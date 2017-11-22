@@ -36,7 +36,16 @@ public class UsuarioController {
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
-        
+    
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<Usuario> getUser(@PathVariable("id") Long id) {
+        Usuario user = userService.findById(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+    
     @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Usuario> getUser(@PathVariable("username") String username) {
         Usuario user = userService.findByUsername(username);
@@ -75,4 +84,23 @@ public class UsuarioController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 	
+    
+    @RequestMapping(value = {"/busca/{query}/{pageNumber}", "/busca/{query}"})
+	public Iterable<Usuario> busca(@PathVariable(required = false) Integer pageNumber, @PathVariable(required = false) String query) {
+		
+		Iterable<Usuario> ret = null;
+
+		if (query == null) {
+			query = "";
+		}
+		
+		if (pageNumber == null) {
+			pageNumber = 1;
+		}
+		
+                ret = userService.getBusca(query, pageNumber);
+		
+		return ret;
+	}
+    
 }
