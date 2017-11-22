@@ -15,6 +15,8 @@ var series = require('stream-series');
 var merge = require('merge-stream');
 var streamqueue = require('streamqueue');
 var babel = require('gulp-babel');
+var clean = require('gulp-clean');
+var flatten = require('gulp-flatten');
 
 var outputDir = 'dist';
 
@@ -28,12 +30,22 @@ var bowerCssFiles = ['**/*.css'];
 
 var jsFiles = ['js/lib/*.js', 'js/main.js', 'js/*.js', 'js/service/*.js', 'js/module/*.js', 'js/directive/*.js', 'js/controller/**/*.js'];
 var cssFiles = ['css/**/*.css', 'css/*.css', 'main.css'];
+
 var bowerFilesConfig = {
 	paths: {
-			bowerDirectory: 'node_modules',
-			bowerJson: 'package.json'
+		bowerDirectory: 'node_modules',
+		bowerJson: 'package.json'
+	},
+	debugging: true,
+	overrides: {
+		"bootstrap": {
+			main: ['dist/js/bootstrap.js', 'dist/css/bootstrap.css']
+		},
+		"angular-ui-bootstrap": {
+			main: ['dist/ui-bootstrap-tpls.js', 'dist/ui-bootstrap-csp.css']
 		}
-	};
+	}
+};
 
 function getPath(txt) {
 	return rootPath + txt;
@@ -46,11 +58,11 @@ gulp.task('lib-js-files', function () {
 
 	vendorJs = 
 		streamqueue({objectMode: true}, 
-			gulp.src(mainBowerFiles(bowerJsFiles, bowerFilesConfig)),
+			gulp.src(mainBowerFiles(bowerJsFiles, bowerFilesConfig), {base: 'node_modules'}),
 			gulp.src(jsFiles)
 		)
 		.pipe(debug())
-		.pipe(concatVendor('dragao.min.js'))
+		.pipe(concatVendor('clinica.min.js'))
 //		.pipe(uglify({mangle: false}).on('error', console.log))
 		.pipe(gulp.dest(getPath(outputDir)));
 });
@@ -62,22 +74,18 @@ gulp.task('lib-css-files', function () {
 
 	vendorCss = 
 		streamqueue({objectMode: true},
-			gulp.src(mainBowerFiles(bowerCssFiles, bowerFilesConfig)),
+			gulp.src(mainBowerFiles(bowerCssFiles, bowerFilesConfig), {base: 'node_modules'}),
 			gulp.src(cssFiles)
 		)
 		.pipe(debug())
-		.pipe(concatVendor('dragao.min.css'))
+		.pipe(concatVendor('clinica.min.css'))
 //		.pipe(minifyCss())
 		.pipe(gulp.dest(getPath(outputDir)));
 });
 
 gulp.task('copyFonts', function () {
-	gulp.src(mainBowerFiles('**/*.{ttf,woff,woff2,eof,svg}', bowerFilesConfig))
+	gulp.src('node_modules/**/*.{ttf,woff,woff2,eof,svg}')
 		.pipe(debug())
+		.pipe(flatten())
 		.pipe(gulp.dest(getPath('fonts')));
-});
-
-// Default Task
-gulp.task('default', function () {
-	runSequence('lib-js-files', 'lib-css-files', 'copyFonts');
 });

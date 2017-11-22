@@ -5,7 +5,7 @@
 	<groupId>br.uva</groupId>
 	<artifactId>GerenciadorClinicasMedica</artifactId>
 	<version>0.2</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>ClinicaMedica</name>
 
@@ -246,11 +246,34 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>gulp build</id>
+						<id>gulp build js</id>
 						<goals>
 							<goal>gulp</goal>
 						</goals>
 						<phase>generate-resources</phase>
+						<configuration>
+							<arguments>lib-js-files</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>gulp build css</id>
+						<goals>
+							<goal>gulp</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<arguments>lib-css-files</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>gulp copy fonts</id>
+						<goals>
+							<goal>gulp</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<arguments>copyFonts</arguments>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
