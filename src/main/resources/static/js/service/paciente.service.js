@@ -2,7 +2,7 @@
     'use strict';
  
     angular
-        .module('clinica')
+        .module('main')
         .factory('PacienteService', PacienteService);
  
 	var urlPrefix = '/paciente/';

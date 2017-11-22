@@ -1,38 +1,27 @@
 <h2>Busca clínica ou especialidade</h2>
-<input id="input-busca" class="form-control" ng-model="inputBusca" ng-keyup="fetchClinica()" />
 
-<ul uib-pagination boundary-links="true" style="display: none;" total-items="totalItems" ng-click="fetchClinica(currentPage)" ng-model="currentPage" class="pagination-sm paginas-resultados possibilidade-busca" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+<div busca-rest profile-path='clinica/:id' rest-path='json/busca/{busca}/{pagina}'>
 
-<table style="display: none;" id="tabela-resultados" class="table table-striped possibilidade-busca">
-	<tr ng-repeat="clinica in _resultados.content" ng-click="abrirProfile(clinica.id)">
-		<td>{{ clinica.nome }}</td>
-		<td>{{ clinica.endereco }}</td>
-		<td ng-model="clinica.especialidades" ng-list=",">{{ clinica.especialidades }}</td>
-		<td>{{ clinica.tipoAtendimento }}</td>
-	</tr>
-</table>
+	<busca-rest-custom id="radio-tipo">
+		<h3>Filtro de Tipo de Atendimento</h3>
+		<div class="radio" ng-init="tipoBusca = ''">
+			<label class="radio-inline active">
+				<input ng-model="tipoBusca" type="radio" name="tipoAtendimento" ng-value="''">Ambos
+			</label>
+			<label class="radio-inline">
+				<input ng-model="tipoBusca" type="radio" name="tipoAtendimento" ng-value="'GRATUITO'">Apenas Gratuito
+			</label>
+			<label class="radio-inline">
+				<input ng-model="tipoBusca" type="radio" name="tipoAtendimento" ng-value="'PRIVADO'">Apenas Privado
+			</label>
+		</div>
+	</busca-rest-custom>
 
-<ul uib-pagination boundary-links="true" id="bottom-pagination-busca" style="display: none;" total-items="totalItems" ng-click="fetchClinica(currentPage)" ng-model="currentPage" class="pagination-sm paginas-resultados possibilidade-busca" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
-
-<div style="display: none;" id="loading" class="possibilidade-busca">
-	<img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" />
-</div>
-
-<div style="display: none;" id="no-results" class="possibilidade-busca">
-	<h2>Nada foi encontrado</h2>
-</div>
-
-<div id="radio-tipo">
-	<h3>Filtro de Tipo de Atendimento</h3>
-    <label ng-click="fetchClinica(currentPage)" class="radio-inline active">
-		<input checked="checked" type="radio" name="tipoAtendimento" value="">Ambos
-    </label>
-    <label ng-click="fetchClinica(currentPage)" class="radio-inline">
-		<input type="radio" name="tipoAtendimento" value="GRATUITO">Apenas Gratuito
-    </label>
-    <label ng-click="fetchClinica(currentPage)" class="radio-inline">
-		<input type="radio" name="tipoAtendimento" value="PRIVADO">Apenas Privado
-    </label>
+	<busca-rest-td>{{ objeto.nome}}</busca-rest-td>
+	<busca-rest-td>{{ objeto.endereco}}</busca-rest-td>
+	<busca-rest-td ng-model="objeto.especialidades" ng-list=",">{{ objeto.especialidades}}</busca-rest-td>
+	<busca-rest-td>{{ objeto.tipoAtendimento}}</busca-rest-td>
+	
 </div>
 
 <a href="#!/"><h3>Retornar a página inicial</h3></a>
