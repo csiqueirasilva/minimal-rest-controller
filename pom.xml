@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			</dependency>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
 		<dependency>
@@ -53,7 +53,7 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			</dependency>
+		</dependency>
         
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -195,9 +195,9 @@
 		</dependency>
 
 		<dependency>
-   		 	<groupId>org.springframework.boot</groupId>
-    		<artifactId>spring-boot-starter-security</artifactId>
-  		</dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 	
 		
 	</dependencies>
@@ -209,16 +209,50 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-        			<mainClass>br.uva.SpringBootApplicationInitializer</mainClass>
-    				<addResources>true</addResources>
-    			</configuration>
+					<mainClass>br.uva.SpringBootApplicationInitializer</mainClass>
+					<addResources>true</addResources>
+				</configuration>
 				<executions>
-        			<execution>
-            			<goals>
-                			<goal>repackage</goal>
-            			</goals>
-       				</execution>
-    			</executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>install node and yarn</id>
+						<goals>
+							<goal>install-node-and-yarn</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<nodeVersion>v8.9.1</nodeVersion>
+							<yarnVersion>v1.3.2</yarnVersion>
+						</configuration>
+					</execution>
+					<execution>
+						<id>yarn install</id>
+						<goals>
+							<goal>yarn</goal>
+						</goals>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>gulp build</id>
+						<goals>
+							<goal>gulp</goal>
+						</goals>
+						<phase>generate-resources</phase>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
         
@@ -264,22 +298,22 @@
 	</pluginRepositories>
 
 	<profiles>
-	   <profile>
-		<id>openshift</id>
-		<build>
-		    <finalName>ROOT</finalName>
-		    <plugins>
-			<plugin>
-			    <artifactId>maven-war-plugin</artifactId>
-			    <version>2.4</version>
-			    <configuration>
-				<outputDirectory>webapps</outputDirectory>
-				<warName>ROOT</warName>
-			    </configuration>
-			</plugin>
-		    </plugins>
-		</build>
-	    </profile>
-	 </profiles>
+		<profile>
+			<id>openshift</id>
+			<build>
+				<finalName>ROOT</finalName>
+				<plugins>
+					<plugin>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.4</version>
+						<configuration>
+							<outputDirectory>webapps</outputDirectory>
+							<warName>ROOT</warName>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>

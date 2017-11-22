@@ -1,3 +1,13 @@
+src/main/resources/static/dist
+src/main/resources/static/fonts
+
+yarn.lock
+package-lock.json
+yarn-error.log
+node
+node_modules
+bower_components
+
 target
 src/main/webapp
 src/test
