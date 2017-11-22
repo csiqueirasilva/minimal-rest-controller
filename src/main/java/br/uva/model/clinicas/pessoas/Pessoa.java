@@ -38,7 +38,7 @@ public abstract class Pessoa extends Usuario {
 	private String logradouro;
 
 	@Column
-	private int numend;
+	private Integer numend;
 
 	@Column(nullable = false)
 	private String cep;
