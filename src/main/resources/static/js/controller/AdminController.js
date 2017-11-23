@@ -15,7 +15,6 @@
 
 	app.controller('AdminController', function AdminController($rootScope, $location, $http, UserService, $window) {
 		var vm = this;
-		vm.allUsers = [];
 
 		vm.logout = function () {
 			$http.post('/logout', {}).finally(function () {
@@ -29,7 +28,6 @@
 
 		function initController() {
 			loadCurrentUser();
-			loadAllUsers();
 		}
 
 		function loadCurrentUser() {
@@ -40,13 +38,6 @@
 					$rootScope.authenticated = false;
 				}
 			});
-		}
-
-		function loadAllUsers() {
-			UserService.GetAll()
-				.then(function (users) {
-					vm.allUsers = users.body.data;
-				});
 		}
 	});
 

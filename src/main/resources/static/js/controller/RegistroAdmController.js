@@ -14,10 +14,9 @@
 	});
 
 	app.controller('RegistroAdmController', RegistroAdmController);
-	RegistroAdmController.$inject = ['$location', '$rootScope', '$window', 'FlashService', 'UserService'];
-	function RegistroAdmController($location, $rootScope, $window, FlashService, UserService) {
+	function RegistroAdmController($location, $rootScope, $window, FlashService, UserService, PessoaFisicaService) {
 		var vm = this;
-		vm.register = UserService.Setup($rootScope, vm, UserService, $window, $location, FlashService);
+		vm.register = UserService.Setup($rootScope, vm, PessoaFisicaService, $window, $location, FlashService);
 	}
 
 })();

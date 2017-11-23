@@ -13,7 +13,7 @@
 			});
 	});
 
-	app.controller('EditarUsuarioController', function ($scope, UserService, MedicoService, PacienteService, ClinicaService, FlashService, $window, $location, $routeParams) {
+	app.controller('EditarUsuarioController', function ($scope, UserService, PessoaFisicaService, MedicoService, PacienteService, ClinicaService, FlashService, $window, $location, $routeParams) {
 
 		var PATH_MEDICO = "form/medico.html",
 			PATH_CLINICA = "form/clinica.html",
@@ -73,7 +73,7 @@
 			} else if (vm.includePath === PATH_CLINICA) {
 				service = ClinicaService;
 			} else if (vm.includePath === PATH_ADMIN) {
-				service = UserService;
+				service = PessoaFisicaService;
 			} else if (vm.includePath === PATH_PACIENTE) {
 				service = PacienteService;
 			}
