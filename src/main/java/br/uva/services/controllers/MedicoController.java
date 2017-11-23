@@ -22,11 +22,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class MedicoController {
 
     @Autowired
-	private MedicoClinicaDLO userService;
+	private MedicoClinicaDLO dlo;
         
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<List<MedicoClinica>> listAllUsers() {
-        Iterable<MedicoClinica> users = userService.findAllUsers();
+        Iterable<MedicoClinica> users = dlo.findAllUsers();
         List<MedicoClinica> list = new ArrayList<>();
         users.forEach(list::add);
 
@@ -38,7 +38,7 @@ public class MedicoController {
         
     @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<MedicoClinica> getUser(@PathVariable("username") String username) {
-        MedicoClinica user = userService.findByUsername(username);
+        MedicoClinica user = dlo.findByUsername(username);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -47,10 +47,10 @@ public class MedicoController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody MedicoClinica user, UriComponentsBuilder ucBuilder) {
-        if (userService.isUserExist(user)) {
+        if (dlo.isUserExist(user)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        userService.saveUser(user);
+        dlo.saveUser(user);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/medico/{id}").buildAndExpand(user.getId()).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
@@ -58,19 +58,28 @@ public class MedicoController {
   
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<MedicoClinica> deleteUser(@PathVariable("id") long id) {
-        MedicoClinica user = userService.findById(id);
+        MedicoClinica user = dlo.findById(id);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
   
-        userService.deleteUserById(id);
+        dlo.deleteUserById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.DELETE)
     public ResponseEntity<MedicoClinica> deleteAllUsers() {
-        userService.deleteAllUsers();
+        dlo.deleteAllUsers();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<MedicoClinica> deleteUser(@PathVariable long id, @RequestBody MedicoClinica user) {
+		if (dlo.findById(id) == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		dlo.updateUser(user);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 }

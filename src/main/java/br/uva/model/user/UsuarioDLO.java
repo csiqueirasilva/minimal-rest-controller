@@ -85,11 +85,9 @@ public class UsuarioDLO {
         }
     }
 
-    private final static int PAGE_SIZE = 10;
-    
     public Iterable<Usuario> getBusca(String query, Integer pageNumber) {
 
-        PageRequest req = new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.ASC, "username");
+        PageRequest req = new PageRequest(pageNumber - 1, BuscaDLO.PAGE_SIZE, Sort.Direction.ASC, "username");
         Page<Usuario> ret = null;
         String uuid = buscaDLO.criar(query);
 

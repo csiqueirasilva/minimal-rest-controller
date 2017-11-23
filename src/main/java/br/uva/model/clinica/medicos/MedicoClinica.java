@@ -17,8 +17,8 @@ public class MedicoClinica extends PessoaFisica {
 	@GeneratedValue
 	private Long id;
 	
-	@Column(unique = true)
-	private String CRM;
+	@Column
+	private Long CRM;
 
 	@Column
 	private String titulo;
@@ -41,11 +41,11 @@ public class MedicoClinica extends PessoaFisica {
 		this.id = id;
 	}
 
-	public String getCRM() {
+	public Long getCRM() {
 		return CRM;
 	}
 
-	public void setCRM(String CRM) {
+	public void setCRM(Long CRM) {
 		this.CRM = CRM;
 	}
 	

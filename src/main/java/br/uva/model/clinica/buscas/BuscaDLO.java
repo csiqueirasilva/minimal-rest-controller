@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BuscaDLO {
 	
+	public final static int PAGE_SIZE = 20;
+	
 	@Autowired
 	private BuscaDAO dao;	
 	

@@ -33,8 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ClinicaMedicaDLO {
 
-	private final static int PAGE_SIZE = 10;
-
 	private final static int RNG_TEST_NUMBER = 26;
 
 	private final static String[] LISTA_NOMES = {"Michael", "Jackson", "Golias", "Almirante", "Nacional", "Japones", "Coreano", "Chinesa", "Arte Milenar", "Jacinto", "Leite", "Milenar", "Teste", "Bangu", "Alameda", "Caxias", "Leblon", "Rural", "Economica", "Bom Jesus", "Santo Milagre", "De Santos", "Últimas Horas", "Maria", "Jardim", "Macarena", "Contoso", "Microsoft", "Delphi", "Debian", "Levanta até Defunto", "Coisas da Vida"};
@@ -58,7 +56,7 @@ public class ClinicaMedicaDLO {
 	private RoleUsuarioDAO roleDAO;
 
 	private Page<ClinicaMedica> busca(String query, TipoAtendimento tipo, Integer pageNumber) {
-		PageRequest req = new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.ASC, "nome");
+		PageRequest req = new PageRequest(pageNumber - 1, BuscaDLO.PAGE_SIZE, Sort.Direction.ASC, "nome");
 		Page<ClinicaMedica> ret = null;
 		String uuid = buscaDLO.criar(query);
 		Collection<TipoAtendimento> tipos = new ArrayList<TipoAtendimento>();
@@ -122,10 +120,10 @@ public class ClinicaMedicaDLO {
 			cm.setActive(true);
 			cm.setPassword(bCryptPasswordEncoder.encode("123456"));
 
-			cm.setTelefone("1111-1111");
+			cm.setTelefone("2111111111");
 			cm.setLogradouro("Rua " + nomeAleatorio());
 			cm.setNumend(intAleatorio(1000));
-			cm.setCep("12345-123");
+			cm.setCep("12345123");
 			cm.setEstado("RJ");
 			cm.setCidade("Rio de Janeiro");
 
@@ -147,10 +145,10 @@ public class ClinicaMedicaDLO {
 				MedicoClinica mc = new MedicoClinica();
 				String nomeMedico = nomeDuploAleatorio();
 				mc.setNome(nomeMedico);
-				mc.setCRM(UUID.randomUUID().toString());
+				mc.setCRM(123456789l);
 				mc.setTitulo(bool() ? "Dr." : "Professor Doutor");
-				mc.setCelular("12345-4444");
-				mc.setCep("12345-123");
+				mc.setCelular("21923454444");
+				mc.setCep("12345123");
 				mc.setEstado("RJ");
 				mc.setCidade("Rio de Janeiro");
 				mc.setCpf("11111111111");
@@ -167,8 +165,8 @@ public class ClinicaMedicaDLO {
 				roles.add(roleMedico);
 				mc.setRoles(roles);
 				mc.setActive(true);
-				mc.setSexo(Math.random() > 0.5 ? "F" : "M");
-				mc.setTelefone("1234-4321");
+				mc.setSexo(Math.random() > 0.5 ? "fem" : "masc");
+				mc.setTelefone("2112344321");
 
 				String username = nomeMedico.toLowerCase().replaceAll("[^a-z]", "") + (Math.random() * 1000);
 				mc.setUsername(username);

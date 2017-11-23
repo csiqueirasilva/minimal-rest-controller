@@ -66,6 +66,15 @@ public class UsuarioController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
   
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Usuario> deleteUser(@PathVariable long id, @RequestBody Usuario user) {
+		if (userService.findById(id) == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+		userService.updateUser(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+	
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Usuario> deleteUser(@PathVariable("id") long id) {
         Usuario user = userService.findById(id);

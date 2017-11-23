@@ -17,7 +17,7 @@ public interface UsuarioDAO extends CrudRepository<Usuario, Long> {
 
     Usuario findByEmail(String email);
 
-    @Query("SELECT DISTINCT c FROM Usuario c, Busca b INNER JOIN c.especialidades e WHERE b.uuid = :uuid AND (LOWER(c.username) LIKE CONCAT('%', LOWER(b.termo), '%') OR LOWER(c.email) LIKE CONCAT('%', LOWER(b.termo), '%'))")
+    @Query("SELECT DISTINCT c FROM Usuario c, Busca b WHERE b.uuid = :uuid AND (LOWER(c.username) LIKE CONCAT('%', LOWER(b.termo), '%') OR LOWER(c.email) LIKE CONCAT('%', LOWER(b.termo), '%'))")
     public Page<Usuario> busca(@Param("uuid") String uuid, Pageable req);
 
 }

@@ -6,16 +6,10 @@
 package br.uva.model.clinicas.pessoas;
 
 import br.uva.model.user.Usuario;
-import br.uva.tools.CustomDateDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *

@@ -64,6 +64,15 @@ public class PacienteController {
 		return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	}
 
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Paciente> deleteUser(@PathVariable long id, @RequestBody Paciente user) {
+		if (dlo.findById(id) == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		dlo.updateUser(user);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Paciente> deleteUser(@PathVariable("id") long id) {
 		Paciente user = dlo.findById(id);

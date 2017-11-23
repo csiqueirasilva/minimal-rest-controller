@@ -45,8 +45,9 @@ public class PessoaFisica extends Pessoa implements Serializable {
 	private String cpf;
 	
 	@Column(nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@JsonDeserialize(using = CustomDateDeserializer.class)
+	
 	private Date dataNascimento;
 
 	@Column
