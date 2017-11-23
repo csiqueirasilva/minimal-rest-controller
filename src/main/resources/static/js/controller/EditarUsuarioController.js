@@ -82,10 +82,8 @@
 				.then(function (response) {
 					vm.dataLoading = false;
 					if (response.success) {
-						if (response.body.status === 201) {
-							FlashService.Success('Registro editado com sucesso', true);
-							$location.path('/');
-						}
+						FlashService.Success('Registro editado com sucesso', true);
+						$location.path("/listar/usuarios");
 					} else {
 						FlashService.Error(response.message + ': Erro ao editar registro', true);
 						$window.scrollTo(0, 0);

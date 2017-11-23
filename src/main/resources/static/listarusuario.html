@@ -1,5 +1,9 @@
 <h2>Busca usuário</h2>
 
+<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash"
+	 ng-bind="flash.message">
+</div>
+
 <div busca-rest profile-path='user/editar/:id' rest-path='user/busca/{busca}/{pagina}'>
     <busca-rest-td>{{ objeto.username}}</busca-rest-td>
     <busca-rest-td>{{ objeto.email}}</busca-rest-td>

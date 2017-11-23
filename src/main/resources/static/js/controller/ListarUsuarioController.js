@@ -6,7 +6,7 @@
 
     app.config(function ($routeProvider) {
         $routeProvider
-                .when("/listar/admin", {
+                .when("/listar/usuarios", {
                     templateUrl: "listarusuario.html",
                     controller: "ListarUsuarioController"
                 });

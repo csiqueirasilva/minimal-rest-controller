@@ -1,7 +1,3 @@
-<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash"
-	 ng-bind="flash.message">
-</div>
-
 <div class="form-group" ng-class="{ 'has-error': (form.username.$dirty || form.username.$touched) && form.username.$invalid }">
 	<label class="control-label" for="username">Username<font color="red">*</font>:</label>
 	<input type="text" class="form-control" name="username" ng-model="vm.user.username" ng-model-options="{ updateOn: 'blur' }" placeholder="Entre com o nome de usuario"
@@ -91,4 +87,8 @@
 		<option value="TO">TO</option>
 	</select>
 	<span ng-show="(form.estado.$dirty || form.estado.$touched) && form.estado.$error.required" class="help-block">O estado é obrigatório</span>
+</div>
+
+<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash"
+	 ng-bind="flash.message">
 </div>
