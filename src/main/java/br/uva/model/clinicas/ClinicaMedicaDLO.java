@@ -5,6 +5,8 @@ import br.uva.model.clinica.medicos.MedicoClinica;
 import br.uva.model.clinica.especialidades.Especialidade;
 import br.uva.model.clinica.buscas.BuscaDLO;
 import br.uva.model.clinica.especialidades.EspecialidadeDLO;
+import br.uva.model.clinica.medicos.MedicoClinicaDLO;
+import br.uva.model.clinicas.exames.ExameMedicoDLO;
 import br.uva.model.user.RoleUsuario;
 import br.uva.model.user.RoleUsuarioDAO;
 import br.uva.model.user.UsuarioDLO;
@@ -38,6 +40,9 @@ public class ClinicaMedicaDLO {
 	private final static String[] LISTA_NOMES = {"Michael", "Jackson", "Golias", "Almirante", "Nacional", "Japones", "Coreano", "Chinesa", "Arte Milenar", "Jacinto", "Leite", "Milenar", "Teste", "Bangu", "Alameda", "Caxias", "Leblon", "Rural", "Economica", "Bom Jesus", "Santo Milagre", "De Santos", "Últimas Horas", "Maria", "Jardim", "Macarena", "Contoso", "Microsoft", "Delphi", "Debian", "Levanta até Defunto", "Coisas da Vida"};
 
 	@Autowired
+	private ExameMedicoDLO exameMedicoDLO;
+
+	@Autowired
 	private ClinicaMedicaDAO dao;
 
 	@Autowired
@@ -51,7 +56,10 @@ public class ClinicaMedicaDLO {
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
+	@Autowired
+	private MedicoClinicaDLO medicoClinicaDLO;
+
 	@Autowired
 	private RoleUsuarioDAO roleDAO;
 
@@ -101,17 +109,21 @@ public class ClinicaMedicaDLO {
 	public void criarDadosTeste() {
 
 		int max = RNG_TEST_NUMBER;
-		
+
 		RoleUsuario roleMedico = roleDAO.findByRole("MEDICO");
 		RoleUsuario roleClinica = roleDAO.findByRole("CLINICA");
-		
+
+		exameMedicoDLO.generateTestData(LISTA_NOMES);
+
+		long crmCount = 100000;
+
 		for (int i = 0; i < max; i++) {
 			ClinicaMedica cm = new ClinicaMedica();
 
 			cm.setNome("Clínica " + nomeDuploAleatorio());
-			
+
 			String usernameClinica = cm.getNome().toLowerCase().replaceAll("[^a-z]+", "");
-			
+
 			cm.setUsername(usernameClinica + (Math.random() * 1000));
 			cm.setEmail(cm.getUsername() + "@" + usernameClinica + ".com");
 			Set<RoleUsuario> rolesClinica = new TreeSet<>();
@@ -128,24 +140,19 @@ public class ClinicaMedicaDLO {
 			cm.setCidade("Rio de Janeiro");
 
 			cm.setCnpj("33555921000170");
-			
+
 			cm.setEmailDeContato("contato@" + usernameClinica + ".com");
 			cm.setTipoAtendimento(bool() ? TipoAtendimento.GRATUITO : TipoAtendimento.PRIVADO);
 
-			if (bool()) {
-				ExameMedico em = new ExameMedico();
-				String nomeExame = "Exame " + nomeAleatorio();
-				em.setNome(nomeExame);
-				em.setInformacoesTecnicas("Segredo do " + nomeExame);
-				cm.getExames().add(em);
-			}
+			ExameMedico em = exameMedicoDLO.getRandom();
+			cm.getExames().add(em);
 
 			int nMedicos = 1 + intAleatorio(3);
 			for (int j = 0; j < nMedicos; j++) {
 				MedicoClinica mc = new MedicoClinica();
 				String nomeMedico = nomeDuploAleatorio();
 				mc.setNome(nomeMedico);
-				mc.setCRM(123456789l);
+				mc.setCRM(crmCount++);
 				mc.setTitulo(bool() ? "Dr." : "Professor Doutor");
 				mc.setCelular("21923454444");
 				mc.setCep("12345123");
@@ -171,6 +178,8 @@ public class ClinicaMedicaDLO {
 				String username = nomeMedico.toLowerCase().replaceAll("[^a-z]", "") + (Math.random() * 1000);
 				mc.setUsername(username);
 				mc.setEmail(username + "@" + cm.getNome().toLowerCase().replaceAll("[^a-z]+", "") + ".com");
+
+				medicoClinicaDLO.saveUser(mc);
 
 				cm.getMedicoClinica().add(mc);
 			}
@@ -210,10 +219,16 @@ public class ClinicaMedicaDLO {
 		return cm;
 	}
 
+	@Transactional
 	public void saveClinica(ClinicaMedica clinica) {
-		dao.save(clinica);
+		try {
+			usuarioDLO.addRoleToUserByName(clinica, "CLINICA");
+			dao.save(clinica);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	private String nomeDuploAleatorio() {
 		String nome1 = nomeAleatorio();
 		String nome2;

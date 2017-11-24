@@ -30,17 +30,17 @@ public class ClinicaMedica extends PessoaJuridica {
 	@GeneratedValue
 	private Long id;
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany
 	private Set<Especialidade> especialidades;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private TipoAtendimento tipoAtendimento;
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany
 	private List<ExameMedico> exames;
 
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany
 	private List<MedicoClinica> medicos;
 
 	@Column
