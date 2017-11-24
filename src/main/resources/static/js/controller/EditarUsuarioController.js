@@ -40,6 +40,24 @@
 						});
 					};
 
+					$scope.loadMedicos = function ($query) {
+						return $http.get('json/medicos', {cache: true}).then(function (response) {
+							var objetos = response.data;
+							return objetos.filter(function (objeto) {
+								return objeto.nome.toLowerCase().indexOf($query.toLowerCase()) !== -1;
+							});
+						});
+					};
+					
+					$scope.loadExames = function ($query) {
+						return $http.get('json/exames', {cache: true}).then(function (response) {
+							var objetos = response.data;
+							return objetos.filter(function (objeto) {
+								return objeto.nome.toLowerCase().indexOf($query.toLowerCase()) !== -1;
+							});
+						});
+					};
+
 				} else if (roles[i].role === "ADMIN") {
 					ret = PATH_ADMIN;
 				} else if (roles[i].role === "PACIENTE") {

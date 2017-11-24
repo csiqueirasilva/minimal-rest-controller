@@ -8,6 +8,47 @@
 
 		<form ng-submit="vm.register()" name="form" role="form" novalidate>
 
+			<label>Exames</label>
+
+			<div class="form-group" ng-class="{ 'has-error': (form.especialidades.$dirty || form.especialidades.$touched) && form.especialidades.$invalid }">
+				<tags-input min-tags="1" ng-model="vm.user.exames" name="especialidades" display-property="nome" placeholder="Adicionar exames" replace-spaces-with-dashes="false">
+					<auto-complete source="loadExames($query)"
+								   min-length="0"
+								   load-on-focus="true"
+								   load-on-empty="true"
+								   max-results-to-show="32"
+								   template="template-exames"></auto-complete>
+				</tags-input>
+				<script type="text/ng-template" id="template-exames">
+					<div>
+						<span ng-bind-html="$highlight($getDisplayText())"></span>
+						<span>{{data.informacoesTecnicas}}</span>
+					</div>
+				</script>
+				<span ng-show="(form.exames.$dirty || form.exames.$touched) && form.exames.$error.minTags" class="help-block">Ao menos um exame é necessário</span>
+			</div>
+			
+			<label>Médicos</label>
+
+			<div class="form-group" ng-class="{ 'has-error': (form.especialidades.$dirty || form.especialidades.$touched) && form.especialidades.$invalid }">
+				<tags-input min-tags="1" ng-model="vm.user.medicos" name="medicos" display-property="nome" placeholder="Adicionar especialidades" replace-spaces-with-dashes="false">
+					<auto-complete source="loadMedicos($query)"
+								   min-length="0"
+								   load-on-focus="true"
+								   load-on-empty="true"
+								   max-results-to-show="32"
+								   template="template-medicos"></auto-complete>
+				</tags-input>
+				<script type="text/ng-template" id="template-medicos">
+					<div>
+						<span ng-bind-html="$highlight($getDisplayText())"></span>
+						<div>crm: {{data.crm}}</div>
+						<div>id: {{data.id}}</div>
+					</div>
+				</script>
+				<span ng-show="(form.medicos.$dirty || form.medicos.$touched) && form.medicos.$error.minTags" class="help-block">Ao menos um médico é necessário</span>
+			</div>
+			
 			<label>Especialidades</label>
 
 			<div class="form-group" ng-class="{ 'has-error': (form.especialidades.$dirty || form.especialidades.$touched) && form.especialidades.$invalid }">
