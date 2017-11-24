@@ -15,6 +15,7 @@
     "angular-cookies": "1.6.4",
     "angular-material": "1.1.5",
     "restangular": "1.6.1",
+	"ng-tags-input": "3.2.0",
 	"textangular": "1.5.16",
 	"angular-ui-bootstrap": "2.5.6"
   },

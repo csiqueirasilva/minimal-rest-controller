@@ -4,9 +4,6 @@ import br.uva.model.clinicas.exames.ExameMedico;
 import br.uva.model.clinica.medicos.MedicoClinica;
 import br.uva.model.clinica.especialidades.Especialidade;
 import br.uva.model.clinicas.pessoas.juridicas.PessoaJuridica;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -33,19 +30,17 @@ public class ClinicaMedica extends PessoaJuridica {
 	@GeneratedValue
 	private Long id;
 
-	@ManyToMany
-	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	private Set<Especialidade> especialidades;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private TipoAtendimento tipoAtendimento;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	private List<ExameMedico> exames;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.PERSIST)
 	private List<MedicoClinica> medicos;
 
 	@Column
@@ -69,29 +64,7 @@ public class ClinicaMedica extends PessoaJuridica {
 	public void setTelefonesDeContato(Set<String> telefonesDeContato) {
 		this.telefonesDeContato = telefonesDeContato;
 	}
-	
-	@JsonProperty("exames")
-	public List<String> getNomesExames() {
-		List<String> ret = new ArrayList<String>();
-		if (exames != null && exames.size() > 0) {
-			for (ExameMedico e : exames) {
-				ret.add(e.getNome());
-			}
-		}
-		return ret;
-	}
 
-	@JsonProperty("especialidades")
-	public List<String> getNomesEspecialidades() {
-		List<String> ret = new ArrayList<String>();
-		if (especialidades != null && especialidades.size() > 0) {
-			for (Especialidade e : especialidades) {
-				ret.add(e.getNome());
-			}
-		}
-		return ret;
-	}
-	
 	public ClinicaMedica() {
 		this.especialidades = new TreeSet<Especialidade>();
 		this.telefonesDeContato = new TreeSet<String>();

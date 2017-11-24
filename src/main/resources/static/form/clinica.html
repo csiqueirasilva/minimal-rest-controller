@@ -1,4 +1,5 @@
 <div class="container">
+
     <div class="col-sm-12">
         <div class="page-header">
             <h2>Formulário de cadastro para Clínica</h2>
@@ -6,6 +7,41 @@
         </div>
 
 		<form ng-submit="vm.register()" name="form" role="form" novalidate>
+
+			<label>Especialidades</label>
+
+			<div class="form-group" ng-class="{ 'has-error': (form.especialidades.$dirty || form.especialidades.$touched) && form.especialidades.$invalid }">
+				<tags-input min-tags="1" ng-model="vm.user.especialidades" name="especialidades" display-property="nome" placeholder="Adicionar especialidades" replace-spaces-with-dashes="false">
+					<auto-complete source="loadEspecialidades($query)"
+								   min-length="0"
+								   load-on-focus="true"
+								   load-on-empty="true"
+								   max-results-to-show="32"
+								   template="template-especialidades"></auto-complete>
+				</tags-input>
+				<script type="text/ng-template" id="template-especialidades">
+					<div>
+					<span ng-bind-html="$highlight($getDisplayText())"></span>
+					</div>
+				</script>
+				<span ng-show="(form.especialidades.$dirty || form.especialidades.$touched) && form.especialidades.$error.minTags" class="help-block">Ao menos uma especialidade é necessária</span>
+			</div>
+
+			<div class="form-group" ng-class="{ 'has-error': (form.tipoAtendimento.$dirty || form.tipoAtendimento.$touched) && form.tipoAtendimento.$invalid }">
+				<label class="control-label">Tipo de Atendimento<font color="red">*</font>:</label>
+				<label class="radio-inline"><input type="radio" name="tipoAtendimento" ng-model="vm.user.tipoAtendimento" ng-model-options="{updateOn: 'blur'}" value="GRATUITO" required>Gratuito</label>
+				<label class="radio-inline"><input type="radio" name="tipoAtendimento" ng-model="vm.user.tipoAtendimento" ng-model-options="{updateOn: 'blur'}" value="PRIVADO" required>Privado</label>
+				<span ng-show="(form.tipoAtendimento.$dirty || form.tipoAtendimento.$touched) && form.tipoAtendimento.$error.required" class="help-block">O tipo de atendimento é obrigatório</span>
+			</div>
+
+			<div class="form-group" ng-class="{ 'has-error': (form.emailDeContato.$dirty || form.emailDeContato.$touched) && form.emailDeContato.$invalid }">
+				<label class="control-label" for="emailDeContato">Email de Contato<font color="red">*</font>:</label>
+				<input type="email" class="form-control" name="emailDeContato" ng-model="vm.user.emailDeContato" ng-model-options="{updateOn: 'blur'}" placeholder="Entre com o email de contato"
+					   required>
+				<span ng-show="(form.emailDeContato.$dirty || form.emailDeContato.$touched) && form.emailDeContato.$error.required" class="help-block">O email de contato é obrigatório</span>
+				<span ng-show="(form.emailDeContato.$dirty || form.emailDeContato.$touched) && form.emailDeContato.$error.emailDeContato" class="help-block">O email de contato não é valido</span>
+			</div>
+
 			<div ng-include="'form/pessoajuridica.html'"></div>
 			<div ng-include="'form/form-submit.html'"></div>
 		</form>

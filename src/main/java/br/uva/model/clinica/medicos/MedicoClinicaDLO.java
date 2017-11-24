@@ -1,14 +1,9 @@
 package br.uva.model.clinica.medicos;
 
-import br.uva.model.user.RoleUsuario;
-import br.uva.model.user.RoleUsuarioDAO;
 import br.uva.model.user.UsuarioDLO;
-import java.util.Arrays;
-import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -19,6 +14,10 @@ public class MedicoClinicaDLO {
 	
 	@Autowired
 	private UsuarioDLO usuarioDLO;
+	
+	public Iterable<MedicoClinica> findAll() {
+		return userRepository.findAll();
+	}
 	
 	public MedicoClinica findByUsername(String username) {
 		return userRepository.findByUsername(username);

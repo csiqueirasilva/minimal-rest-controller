@@ -43,6 +43,9 @@ var bowerFilesConfig = {
 		},
 		"angular-ui-bootstrap": {
 			main: ['dist/ui-bootstrap-tpls.js', 'dist/ui-bootstrap-csp.css']
+		},
+		"ng-tags-input": {
+			main: ['build/ng-tags-input.min.js', 'build/ng-tags-input.min.css']
 		}
 	}
 };

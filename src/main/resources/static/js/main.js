@@ -1,6 +1,6 @@
 (function () {
 
-	var app = angular.module('main', ['ui.mask', 'ui.bootstrap', 'ui.bootstrap.tpls', "ui.bootstrap.datepicker", "ui.bootstrap.datepickerPopup", 'ngSanitize', 'ngAnimate', 'ngRoute', 'ngCookies']);
+	var app = angular.module('main', ['ui.mask', 'ui.bootstrap', 'ui.bootstrap.tpls', "ui.bootstrap.datepicker", "ui.bootstrap.datepickerPopup", 'ngSanitize', 'ngAnimate', 'ngRoute', 'ngCookies', 'ngTagsInput']);
 
 	app.config(function ($routeProvider, $httpProvider) {
 

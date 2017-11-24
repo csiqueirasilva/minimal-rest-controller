@@ -13,7 +13,7 @@
 			});
 	});
 
-	app.controller('EditarUsuarioController', function ($scope, UserService, PessoaFisicaService, MedicoService, PacienteService, ClinicaService, FlashService, $window, $location, $routeParams) {
+	app.controller('EditarUsuarioController', function ($http, $scope, UserService, PessoaFisicaService, MedicoService, PacienteService, ClinicaService, FlashService, $window, $location, $routeParams) {
 
 		var PATH_MEDICO = "form/medico.html",
 			PATH_CLINICA = "form/clinica.html",
@@ -30,12 +30,38 @@
 					ret = PATH_MEDICO;
 				} else if (roles[i].role === "CLINICA") {
 					ret = PATH_CLINICA;
+
+					$scope.loadEspecialidades = function ($query) {
+						return $http.get('json/especialidades', {cache: true}).then(function (response) {
+							var objetos = response.data;
+							return objetos.filter(function (objeto) {
+								return objeto.nome.toLowerCase().indexOf($query.toLowerCase()) !== -1;
+							});
+						});
+					};
+
 				} else if (roles[i].role === "ADMIN") {
 					ret = PATH_ADMIN;
 				} else if (roles[i].role === "PACIENTE") {
 					ret = PATH_PACIENTE;
 				}
 			}
+
+			if (ret !== PATH_CLINICA) {
+				$scope.dateOptions = {
+					maxDate: new Date(),
+					minDate: new Date(1920, 0, 1)
+				};
+
+				$scope.dtNascimentoDados = {};
+
+				$scope.dtNascimentoDados.popup = false;
+
+				$scope.dtNascimentoPick = function () {
+					$scope.dtNascimentoDados.popup = true;
+				};
+			}
+			
 			return ret;
 		}
 
@@ -48,20 +74,6 @@
 					vm.includePath = getPath(vm.user.roles);
 				}
 			});
-
-
-		$scope.dateOptions = {
-			maxDate: new Date(),
-			minDate: new Date(1920, 0, 1)
-		};
-
-		$scope.dtNascimentoDados = {};
-
-		$scope.dtNascimentoDados.popup = false;
-
-		$scope.dtNascimentoPick = function () {
-			$scope.dtNascimentoDados.popup = true;
-		};
 
 		function register() {
 			vm.dataLoading = true;

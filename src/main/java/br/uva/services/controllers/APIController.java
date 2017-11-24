@@ -5,9 +5,15 @@
  */
 package br.uva.services.controllers;
 
+import br.uva.model.clinica.especialidades.Especialidade;
+import br.uva.model.clinica.especialidades.EspecialidadeDLO;
+import br.uva.model.clinica.medicos.MedicoClinica;
+import br.uva.model.clinica.medicos.MedicoClinicaDLO;
 import br.uva.model.clinicas.ClinicaMedica;
 import br.uva.model.clinicas.ClinicaMedicaDLO;
 import br.uva.model.clinicas.TipoAtendimento;
+import br.uva.model.clinicas.exames.ExameMedico;
+import br.uva.model.clinicas.exames.ExameMedicoDLO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +30,30 @@ public class APIController {
 	@Autowired
 	private ClinicaMedicaDLO clinicaDLO;
 
+	@Autowired
+	private ExameMedicoDLO exameMedicoDLO;
+
+	@Autowired
+	private EspecialidadeDLO especialidadeDLO;
+
+	@Autowired
+	private MedicoClinicaDLO medicoClinicaDLO;
+
+	@RequestMapping("/exames")
+	public Iterable<ExameMedico> exames() {
+		return exameMedicoDLO.findAll();
+	}
+	
+	@RequestMapping("/medicos")
+	public Iterable<MedicoClinica> medicos() {
+		return medicoClinicaDLO.findAll();
+	}
+	
+	@RequestMapping("/especialidades")
+	public Iterable<Especialidade> especialidades() {
+		return especialidadeDLO.findAll();
+	}
+	
 	@RequestMapping("/clinica/{id}")
 	public ClinicaMedica obterClinica(@PathVariable Long id) {
 		return clinicaDLO.obterClinica(id);
