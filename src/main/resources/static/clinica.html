@@ -3,6 +3,9 @@
 </div>
 
 <div id="dados-clinica">
+	<div style='float: right;' ng-show="usuarioAtual.role=='paciente'">
+		<button ng-click="addClinica()" class="btn btn btn-success btn-block">Adicionar Clinica</button>
+	</div>
 	<h1>{{ _clinica.nome}}</h1>
 	<h3>Rede {{ _clinica.rede}}</h3>
 	<h3>{{ _clinica.logradouro }}, {{ _clinica.numend }}</h3>
@@ -55,5 +58,6 @@
 	
 </div>
 
-<a href="#!/busca"><h3>Retornar a página de busca</h3></a>
-<a href="#!/"><h3>Retornar a página inicial</h3></a>
+<a href="#!/busca" ><h3>Retornar a página de busca</h3></a>
+<a ng-hide="!usuarioAtual.authenticated" ng-href="#!/home/{{usuarioAtual.role}}"><h3>Retornar a página inicial</h3></a>
+<a ng-hide="usuarioAtual.authenticated" href="#!"><h3>Retornar a página inicial</h3></a>

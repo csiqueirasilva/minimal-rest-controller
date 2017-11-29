@@ -1,8 +1,5 @@
 package br.uva.model.user;
 
-import br.uva.model.clinicas.ClinicaMedica;
-import br.uva.model.clinicas.TipoAtendimento;
-import java.util.Collection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;

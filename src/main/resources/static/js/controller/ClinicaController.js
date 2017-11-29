@@ -8,11 +8,11 @@
 		$routeProvider
 			.when("/clinica/:id", {
 				templateUrl: "clinica.html",
-				controller: "ClinicaController"
+				controller: "ClinicaController",
 			});
 	});
 
-	app.controller('ClinicaController', function ($scope, $http, $rootScope, $location, $routeParams) {
+	app.controller('ClinicaController', function ($scope, $http, $rootScope, $location, $routeParams, FlashService, $cookies, AuthenticationService) {
 
 		var id = $routeParams.id;
 
@@ -36,6 +36,20 @@
 			.then(function () {
 				$('#loading').hide();
 			});
+
+		$scope.addClinica = function () {
+			AuthenticationService.GetCurrentUser().then(function(user){
+				if(user.data.authorities["0"].authority == "PACIENTE"){
+					$http.post('/paciente/' + user.data.name + '/' + id).then(
+						function () {
+							$location.path("/home/paciente");
+						},
+						function () {
+							$location.path("/");
+						});
+				}
+			})
+		}
 
 	});
 

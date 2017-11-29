@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
@@ -33,8 +32,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http
 				.httpBasic().and()
 				.authorizeRequests()
-				.antMatchers("/admin.html", "/admin/**").hasAuthority("ADMIN")
-				.antMatchers("/console/**", "/login/**", "/login").permitAll()
+				.antMatchers("/homeadmin.html","/listarusuario.html","/editarusuario.html").hasAuthority("ADMIN")
+				.antMatchers("/homeclinica.html", "/form/consulta.html").hasAuthority("CLINICA")
+				.antMatchers("/homemedico.html").hasAuthority("MEDICO")
+				.antMatchers("/homepaciente.html", "/listarconsulta.html").hasAuthority("PACIENTE")
+				.regexMatchers("/fisica/(\\d+)").hasAuthority("ADMIN")
+				.regexMatchers("/paciente/(\\d+)").hasAuthority("PACIENTE")
+				.regexMatchers("/medico/(\\d+)").hasAuthority("MEDICO")
+				.regexMatchers("/clinica/(\\d+)").hasAuthority("CLINICA")
+				.antMatchers("/console/**", "/login").permitAll()
 				.and()
 				.csrf().disable()
 				.headers().frameOptions().disable();

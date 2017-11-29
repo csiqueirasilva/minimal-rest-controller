@@ -1,0 +1,74 @@
+<div class="container">
+        
+            <div class="header clearfix">
+                    <h3 class="text-muted">Formulário de {{vm.modo}} para Consulta</h3>
+                    <h4 class="text-muted">Por favor preecha o formulário abaixo</h4>
+            </div>
+            
+            <div>
+        
+                <form ng-submit="vm.register()" name="form" role="form" novalidate>
+        
+                    <label>Paciente</label>
+        
+                    <div class="form-group" ng-class="{ 'has-error': (form.paciente.$dirty || form.paciente.$touched) && form.paciente.$invalid }">
+                        <tags-input min-tags="1" max-tags="1" ng-model="vm.pacientes" name="paciente" display-property="nome" placeholder="Adicionar paciente" replace-spaces-with-dashes="false">
+                            <auto-complete source="loadPacientes($query)"
+                                           min-length="0"
+                                           load-on-focus="true"
+                                           load-on-empty="true"
+                                           max-results-to-show="32"
+                                           template="template-medicos"></auto-complete>
+                        </tags-input>
+                        <script type="text/ng-template" id="template-medicos">
+                            <div>
+                                <div ng-bind-html="$highlight($getDisplayText())"></div>
+                                <div>nome: {{data.nome}}</div>
+                                <div>id: {{data.id}}</div>
+                            </div>
+                        </script>
+                        <span ng-show="(form.paciente.$dirty || form.paciente.$touched) && form.paciente.$error.minTags" class="help-block">Um paciente e necessario</span>
+                    </div>
+                    
+                    <label>Médicos</label>
+        
+                    <div class="form-group" ng-class="{ 'has-error': (form.medicos.$dirty || form.medicos.$touched) && form.medicos.$invalid }">
+                        <tags-input min-tags="1" max-tags="1" ng-model="vm.medicos" name="medicos" display-property="crm" placeholder="Adicionar médicos" replace-spaces-with-dashes="false">
+                            <auto-complete source="loadMedicos($query)"
+                                           min-length="0"
+                                           load-on-focus="true"
+                                           load-on-empty="true"
+                                           max-results-to-show="32"
+                                           template="template-medicos"></auto-complete>
+                        </tags-input>
+                        <script type="text/ng-template" id="template-medicos">
+                            <div>
+                                <span ng-bind-html="$highlight($getDisplayText())"></span>
+                                <div>nome: {{data.nome}}</div>
+                                <div>id: {{data.id}}</div>
+                            </div>
+                        </script>
+                        <span ng-show="(form.medicos.$dirty || form.medicos.$touched) && form.medicos.$error.minTags" class="help-block">Ao menos um médico é necessário</span>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': ((form.dataConsulta.$dirty || form.dataConsulta.$touched) && (form.dataConsulta.$error.required || form.dataConsulta.$invalid)) }">
+                        <label class="control-label" for="dataConsulta">Data da Consulta<font color="red">*</font>:</label>
+                    
+                        <p class="input-group">
+                            <input 
+                                uib-datepicker-popup="ddMMyyyy" is-open="dtNascimentoDados.popup" datepicker-options="dateOptions" show-button-bar="false"
+                                type="text" class="form-control" ng-model="vm.user.dataConsulta" name="dataConsulta" ui-mask="99/99/9999" ng-model-options="{ updateOn: 'blur' }" required>
+                            <span class="input-group-btn">
+                                <button type="button" ng-click="dtNascimentoPick()" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    
+                        <span ng-show="(form.dataConsulta.$dirty || form.dataConsulta.$touched) && form.dataConsulta.$error.required" class="help-block">A data da consulta é obrigatória</span>
+                        <span ng-show="(form.dataConsulta.$dirty || form.dataConsulta.$touched) && !form.dataConsulta.$error.required && form.dataConsulta.$invalid" class="help-block">A data da consulta é inválida</span>
+                    </div>
+
+                    <div ng-include="'form/form-submit.html'"></div>
+                </form>
+        
+            </div>
+        </div>

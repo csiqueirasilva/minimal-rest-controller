@@ -8,6 +8,9 @@ package br.uva.services.controllers;
 import br.uva.model.clinica.medicos.MedicoClinica;
 import br.uva.model.clinicas.ClinicaMedica;
 import br.uva.model.clinicas.ClinicaMedicaDLO;
+import br.uva.model.clinicas.pacientes.Paciente;
+import br.uva.model.user.UsuarioDLO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,6 +32,10 @@ public class ClinicaController {
 
 	@Autowired
 	private ClinicaMedicaDLO dlo;
+	
+	@Autowired
+	private UsuarioDLO usuarioDLO;
+
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public ResponseEntity<Void> create(@RequestBody ClinicaMedica consulta, UriComponentsBuilder ucBuilder) {
@@ -38,11 +45,24 @@ public class ClinicaController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<ClinicaMedica> deleteUser(@PathVariable long id, @RequestBody ClinicaMedica user) {
+	public ResponseEntity<Void> updateClinica(@PathVariable long id, @RequestBody ClinicaMedica user) {
 		if (dlo.obterClinica(id) == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		dlo.saveClinica(user);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+
+
+	@RequestMapping(value = "/medicos/{username}", method = RequestMethod.GET)
+	public Iterable<MedicoClinica> getMedicos(@PathVariable("username") String username) {
+
+		Iterable<MedicoClinica> ret = null;
+		
+		ret = dlo.buscaMedicos(dlo.findByUsername(username).getId());
+
+		return ret;
+	}
+	
+	
 }

@@ -1,24 +1,35 @@
 <!doctype html>
 <html ng-app="main">
 
-	<head>
-		<base href="/">
+<head>
+	<base href="/">
 
-		<meta charset="utf-8" />
+	<meta charset="utf-8" />
 
-		<title>Gerenciador de Clínicas Médicas</title>
+	<title>Gerenciador de Clínicas Médicas</title>
 
-		<script src="dist/clinica.min.js"></script>
-		<link href="dist/clinica.min.css" rel="stylesheet" />
-	</head>
+	<script src="dist/clinica.min.js"></script>
+	<link href="dist/clinica.min.css" rel="stylesheet" />
+</head>
 
-	<body>
-		<div class="container-fluid">
-			<div class="row-fluid col-md-12">
-				<h1>GERENCIADOR DE CLÍNICAS MÉDICAS</h1>
-				<ng-view></ng-view>
-			</div>
+<body>
+	<div class="container">
+		<div class="header clearfix">
+			<nav>
+				<ul class="nav nav-pills pull-right">
+					<li role="presentation" ng-hide="usuarioAtual.authenticated" class="active"><a href="#!">Login</a></li>
+					<li role="presentation" ng-hide="usuarioAtual.authenticated"><a href="#!/registro/clinica">Cadastrar Clinica</a></li>
+					<li role="presentation" ng-hide="!usuarioAtual.authenticated" class="active"><a ng-href="#!/home/{{usuarioAtual.role}}">Home</a></li>
+					<li role="presentation"><a href="#!/busca">Buscar Clinicas</a></li>
+					<button type="button" ng-hide="!usuarioAtual.authenticated" class="btn btn-default navbar-btn" onclick="location.href='#!';">Logout</button>
+				</ul>
+			</nav>
+			<h3 class="text-muted">Gerenciador de Clínicas</h3>
 		</div>
-	</body>
+		<div>
+			<ng-view></ng-view>
+		</div>
+	</div>
+</body>
 
 </html>

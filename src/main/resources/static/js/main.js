@@ -27,4 +27,8 @@
 		});
 	});
 
+	app.run(function ($rootScope, $cookies) {
+		$rootScope.usuarioAtual = $cookies.get('usuarioAtual');
+	});
+
 })();

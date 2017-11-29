@@ -14,6 +14,9 @@ import br.uva.model.clinicas.ClinicaMedicaDLO;
 import br.uva.model.clinicas.TipoAtendimento;
 import br.uva.model.clinicas.exames.ExameMedico;
 import br.uva.model.clinicas.exames.ExameMedicoDLO;
+import br.uva.model.clinicas.pacientes.Paciente;
+import br.uva.model.clinicas.pacientes.PacienteDLO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +41,9 @@ public class APIController {
 
 	@Autowired
 	private MedicoClinicaDLO medicoClinicaDLO;
+	
+	@Autowired
+	private PacienteDLO pacienteDLO;
 
 	@RequestMapping("/exames")
 	public Iterable<ExameMedico> exames() {
@@ -52,6 +58,11 @@ public class APIController {
 	@RequestMapping("/especialidades")
 	public Iterable<Especialidade> especialidades() {
 		return especialidadeDLO.findAll();
+	}
+	
+	@RequestMapping("/pacientes")
+	public Iterable<Paciente> pacientes() {
+		return pacienteDLO.findAllUsers();
 	}
 	
 	@RequestMapping("/clinica/{id}")

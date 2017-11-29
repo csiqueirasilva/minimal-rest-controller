@@ -60,6 +60,7 @@
   },
   "scripts": {
     "prebuild": "npm install",
-    "build": "gulp"
+    "build": "gulp",
+    "rg": "gulp clear && gulp build"
   }
 }

@@ -5,7 +5,6 @@
  */
 package br.uva.model.clinicas.exames;
 
-import br.uva.model.clinicas.consultas.Consulta;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

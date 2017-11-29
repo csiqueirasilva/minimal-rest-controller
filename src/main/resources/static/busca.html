@@ -24,4 +24,5 @@
 	
 </div>
 
-<a href="#!/"><h3>Retornar a página inicial</h3></a>
+<a ng-hide="!usuarioAtual.authenticated" ng-href="#!/home/{{usuarioAtual.role}}"><h3>Retornar a página inicial</h3></a>
+<a ng-hide="usuarioAtual.authenticated" href="#!"><h3>Retornar a página inicial</h3></a>

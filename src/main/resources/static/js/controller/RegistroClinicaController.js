@@ -15,7 +15,9 @@
 
 	app.controller('RegistroClinicaController', RegistroClinicaController);
 	function RegistroClinicaController($location, $scope, $http, $rootScope, $window, FlashService, UserService, ClinicaService) {
+
 		var vm = this;
+		vm.modo = "cadastro";
 
 		$scope.loadEspecialidades = function ($query) {
 			return $http.get('json/especialidades', {cache: true}).then(function (response) {

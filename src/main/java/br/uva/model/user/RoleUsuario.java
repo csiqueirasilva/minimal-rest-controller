@@ -5,9 +5,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-public class RoleUsuario implements Serializable, Comparable {
+public class RoleUsuario implements GrantedAuthority, Serializable, Comparable {
 	
 	@Id
     @GeneratedValue
@@ -36,6 +37,11 @@ public class RoleUsuario implements Serializable, Comparable {
 	@Override
 	public int compareTo(Object o) {
 		return this.role.compareTo(((RoleUsuario) o).getRole());
+	}
+
+	@Override
+	public String getAuthority() {
+		return role;
 	}
 	
 }

@@ -1,11 +1,7 @@
 package br.uva.model.user;
 
 import br.uva.model.clinica.buscas.BuscaDLO;
-import br.uva.model.clinicas.ClinicaMedica;
-import br.uva.model.clinicas.TipoAtendimento;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;

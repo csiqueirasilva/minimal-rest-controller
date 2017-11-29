@@ -2,6 +2,8 @@ package br.uva.services.controllers;
 
 import br.uva.model.clinica.medicos.MedicoClinica;
 import br.uva.model.clinica.medicos.MedicoClinicaDLO;
+import br.uva.model.user.UsuarioDLO;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,9 @@ public class MedicoController {
 
     @Autowired
 	private MedicoClinicaDLO dlo;
+    
+	@Autowired
+	private UsuarioDLO usuarioDLO;
         
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<List<MedicoClinica>> listAllUsers() {
@@ -74,11 +79,11 @@ public class MedicoController {
     }
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<MedicoClinica> deleteUser(@PathVariable long id, @RequestBody MedicoClinica user) {
+	public ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody MedicoClinica user) {
 		if (dlo.findById(id) == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		dlo.updateUser(user);
+		dlo.saveUser(user);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	

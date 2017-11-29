@@ -7,6 +7,7 @@ import br.uva.model.clinica.buscas.BuscaDLO;
 import br.uva.model.clinica.especialidades.EspecialidadeDLO;
 import br.uva.model.clinica.medicos.MedicoClinicaDLO;
 import br.uva.model.clinicas.exames.ExameMedicoDLO;
+import br.uva.model.clinicas.pacientes.Paciente;
 import br.uva.model.user.RoleUsuario;
 import br.uva.model.user.RoleUsuarioDAO;
 import br.uva.model.user.UsuarioDLO;
@@ -17,7 +18,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -209,7 +209,6 @@ public class ClinicaMedicaDLO {
 		}
 
 	}
-
 	public ClinicaMedica obterClinica(Long id) {
 		ClinicaMedica cm = null;
 		try {
@@ -218,7 +217,7 @@ public class ClinicaMedicaDLO {
 		}
 		return cm;
 	}
-
+	
 	@Transactional
 	public void saveClinica(ClinicaMedica clinica) {
 		try {
@@ -228,7 +227,7 @@ public class ClinicaMedicaDLO {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private String nomeDuploAleatorio() {
 		String nome1 = nomeAleatorio();
 		String nome2;
@@ -236,5 +235,14 @@ public class ClinicaMedicaDLO {
 			nome2 = nomeAleatorio();
 		} while (nome2.equals(nome1));
 		return nome1 + " " + nome2;
+	}
+	
+
+	public ClinicaMedica findByUsername(String user) {
+		return dao.findByUsername(user);
+	}
+	
+	public Iterable<MedicoClinica> buscaMedicos(Long id){
+		return dao.findAllMedicos(id);
 	}
 }

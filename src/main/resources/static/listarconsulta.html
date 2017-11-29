@@ -1,0 +1,12 @@
+<div style='float: right;'>
+    <button ng-click="vm.deleteClinica()" class="btn btn btn-danger btn-block">Excluir Clinica</button>
+</div>
+<h3>{{vm.clinicanome}}</h3>
+<h3>Consultas da {{vm.clinicanome}}</h3>
+<div ng-if='vm.username'>
+    <div busca-rest profile-path='' rest-path='/consulta/busca/{{vm.username}}/{{vm.clinicaid}}/{busca}/{pagina}'>
+        <busca-rest-td>{{ objeto.dataConsulta}}</busca-rest-td>
+        <busca-rest-td>{{ objeto.medico.crm}}</busca-rest-td>
+        <busca-rest-td>{{ objeto.medico.nome}}</busca-rest-td>
+    </div>
+</div>

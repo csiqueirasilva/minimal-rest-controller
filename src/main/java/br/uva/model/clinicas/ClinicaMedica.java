@@ -1,6 +1,7 @@
 package br.uva.model.clinicas;
 
 import br.uva.model.clinicas.exames.ExameMedico;
+import br.uva.model.clinicas.pacientes.Paciente;
 import br.uva.model.clinica.medicos.MedicoClinica;
 import br.uva.model.clinica.especialidades.Especialidade;
 import br.uva.model.clinicas.pessoas.juridicas.PessoaJuridica;
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -17,7 +17,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 /**
  *
