@@ -5,13 +5,15 @@
         .module('main')
         .factory('AuthenticationService', AuthenticationService);
 
-    AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$window'];
-    function AuthenticationService($http, $cookies, $rootScope, $window) {
+    function AuthenticationService($http, $cookies, $rootScope, $window, $location) {
         var service = {};
 
         service.authenticate = authenticate;
         service.GetCurrentUser = GetCurrentUser;
         service.ClearUser = ClearUser;
+		service.IsAuthenticated = IsAuthenticated;
+		service.GoUserHome = GoUserHome;
+		service.ReloadUserFromCookie = ReloadUserFromCookie;
 
         return service;
 
@@ -45,12 +47,27 @@
         function ClearUser(callback) {
             if ($cookies.get('usuarioAtual')) {
                 $http.post('/logout', {}).finally(function () {
-                    $window.location.reload();
                     $rootScope.usuarioAtual = {};
                     $cookies.remove('usuarioAtual');
+					$location.path("/");
+					$rootScope.logout = false;
                 });
             }
         }
+		
+		function IsAuthenticated() {
+			return $cookies.get('usuarioAtual') && $rootScope.usuarioAtual && $rootScope.usuarioAtual !== {} && $rootScope.usuarioAtual.role;
+		}
+		
+		function ReloadUserFromCookie() {
+			if(IsAuthenticated()) {
+				$rootScope.usuarioAtual = $cookies.getObject('usuarioAtual');
+			}
+		}
+		
+		function GoUserHome() {
+			$location.path("/home/" + $rootScope.usuarioAtual.role);
+		}
     }
 
 })();

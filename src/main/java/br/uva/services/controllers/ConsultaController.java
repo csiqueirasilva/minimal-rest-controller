@@ -47,7 +47,7 @@ public class ConsultaController {
 		return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value = {"/busca/{username}/{clinicaid}/{query}/{pageNumber}", "/busca/{username}/{clinicaid}/{query}","/busca/{username}/{clinicaid}"})
+	@RequestMapping(value = {"/busca/{username:.+}/{clinicaid}/{query}/{pageNumber}", "/busca/{username:.+}/{clinicaid}/{query}","/busca/{username:.+}/{clinicaid}"})
 	public Iterable<Consulta> busca(@PathVariable("username") String username, @PathVariable("clinicaid") Long id, @PathVariable(required = false) String query, @PathVariable(required = false) Integer pageNumber ) {
 		Iterable<Consulta> ret = null;
 

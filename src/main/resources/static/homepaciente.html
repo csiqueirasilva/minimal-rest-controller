@@ -10,6 +10,10 @@
 <h3>Minhas Clinicas</h3>
 <div ng-if='vm.user'>
     <div busca-rest profile-path='/home/paciente/:id' rest-path='/paciente/busca/{{vm.user}}/{busca}/{pagina}'>
+		<busca-rest-th>Clínica</busca-rest-th>
+        <busca-rest-th>Logradouro</busca-rest-th>
+        <busca-rest-th>Número</busca-rest-th>
+		
         <busca-rest-td>{{ objeto.nome}}</busca-rest-td>
         <busca-rest-td>{{ objeto.logradouro}}</busca-rest-td>
         <busca-rest-td>{{ objeto.numend}}</busca-rest-td>

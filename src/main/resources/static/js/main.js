@@ -27,8 +27,8 @@
 		});
 	});
 
-	app.run(function ($rootScope, $cookies) {
-		$rootScope.usuarioAtual = $cookies.get('usuarioAtual');
+	app.run(function (AuthenticationService) {
+		AuthenticationService.ReloadUserFromCookie();
 	});
 
 })();

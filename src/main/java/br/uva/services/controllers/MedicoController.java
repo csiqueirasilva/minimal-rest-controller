@@ -41,7 +41,7 @@ public class MedicoController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
         
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+    @RequestMapping(value = "/{username:.+}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<MedicoClinica> getUser(@PathVariable("username") String username) {
         MedicoClinica user = dlo.findByUsername(username);
         if (user == null) {

@@ -46,7 +46,7 @@ public class UsuarioController {
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@RequestMapping(value = "/{username:.+}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<Usuario> getUser(@PathVariable("username") String username) {
 		Usuario user = userService.findByUsername(username);
 		if (user == null) {

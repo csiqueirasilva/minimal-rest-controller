@@ -20,7 +20,7 @@
 		vm.modo = "alteração";
 		
 		AuthenticationService.GetCurrentUser().then(function(user) {
-			if(user.data.name != vm.oldUsername)
+			if(user.data.name !== vm.oldUsername && user.data.authorities[0].authority !== 'ADMIN')
 				$location.path("/");
 		});
 

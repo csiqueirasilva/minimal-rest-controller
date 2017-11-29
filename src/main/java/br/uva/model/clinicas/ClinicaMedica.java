@@ -95,14 +95,6 @@ public class ClinicaMedica extends PessoaJuridica {
 		this.exames = exames;
 	}
 
-	public List<MedicoClinica> getMedicoClinica() {
-		return medicos;
-	}
-
-	public void setMedicoClinica(List<MedicoClinica> medicoClinica) {
-		this.medicos = medicoClinica;
-	}
-
 	public List<MedicoClinica> getMedicos() {
 		return medicos;
 	}

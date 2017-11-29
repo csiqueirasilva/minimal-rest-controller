@@ -52,7 +52,7 @@ public class PacienteController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@RequestMapping(value = "/{username:.+}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<Paciente> getUser(@PathVariable("username") String username) {
 		Paciente user = dlo.findByUsername(username);
 		if (user == null) {
@@ -72,7 +72,7 @@ public class PacienteController {
 		return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value = "/{username}/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/{username:.+}/{id}", method = RequestMethod.POST)
 	public ResponseEntity<Void> createMinhaClinica(@PathVariable("username") String username, @PathVariable("id") Long clinicaId) {
 
 		if(!dlo.addClinica(clinicaId, username)){
@@ -108,12 +108,12 @@ public class PacienteController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
-	@RequestMapping(value = "/{username}/{clinicaid}", method = RequestMethod.DELETE )
+	@RequestMapping(value = "/{username:.+}/{clinicaid}", method = RequestMethod.DELETE )
 	public @ResponseBody void deleteMinhaClinica(@PathVariable("username") String username, @PathVariable("clinicaid") Long clinicaid) {
 		dlo.deleteClinica(clinicaid, username);
 	}
 	
-	@RequestMapping(value = {"/busca/{username}/{query}/{pageNumber}", "/busca/{username}/{query}","/busca/{username}"})
+	@RequestMapping(value = {"/busca/{username:.+}/{query}/{pageNumber}", "/busca/{username:.+}/{query}","/busca/{username:.+}"})
 	public Iterable<ClinicaMedica> busca(@PathVariable("username") String username, @PathVariable(required = false) String query, @PathVariable(required = false) Integer pageNumber ) {
 
 		Iterable<ClinicaMedica> ret = null;

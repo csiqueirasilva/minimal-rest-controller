@@ -9,7 +9,7 @@
         var service = {};
 
         service.GetById = GetById;
-        service.GetByUsername = GetByUsername
+        service.GetByUsername = GetByUsername;
         service.Setup = Setup;
 
         return service;

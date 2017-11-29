@@ -10,6 +10,7 @@ import br.uva.model.clinicas.ClinicaMedica;
 import br.uva.model.clinicas.ClinicaMedicaDLO;
 import br.uva.model.clinicas.pacientes.Paciente;
 import br.uva.model.user.UsuarioDLO;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -54,13 +55,17 @@ public class ClinicaController {
 	}
 
 
-	@RequestMapping(value = "/medicos/{username}", method = RequestMethod.GET)
+	@RequestMapping(value = "/medicos/{username:.+}", method = RequestMethod.GET)
 	public Iterable<MedicoClinica> getMedicos(@PathVariable("username") String username) {
 
-		Iterable<MedicoClinica> ret = null;
+		Iterable<MedicoClinica> ret = new ArrayList<>();
 		
-		ret = dlo.buscaMedicos(dlo.findByUsername(username).getId());
-
+		try {
+			ClinicaMedica cm = dlo.findByUsername(username);
+			ret = cm.getMedicos();
+		} catch (Exception e) {
+		}
+		
 		return ret;
 	}
 	

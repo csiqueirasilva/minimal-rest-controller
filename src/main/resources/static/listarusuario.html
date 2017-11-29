@@ -5,6 +5,11 @@
 </div>
 
 <div busca-rest profile-path='/home/admin/listar/user/:id' rest-path='user/busca/{busca}/{pagina}'>
+    <busca-rest-th>USERNAME</busca-rest-th>
+    <busca-rest-th>E-MAIL</busca-rest-th>
+    <busca-rest-th>ROLES</busca-rest-th>
+    <busca-rest-th>ATIVO</busca-rest-th>
+
     <busca-rest-td>{{ objeto.username}}</busca-rest-td>
     <busca-rest-td>{{ objeto.email}}</busca-rest-td>
     <busca-rest-td ng-model="objeto.roles" ng-list=",">{{ objeto.roles}}</busca-rest-td>

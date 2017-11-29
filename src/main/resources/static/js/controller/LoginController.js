@@ -18,18 +18,21 @@
 		var vm = this;
 		vm.credentials = {};
 
-		AuthenticationService.ClearUser();
-
-		vm.login = function () {
-			AuthenticationService.authenticate(vm.credentials, function (response) {
-				if (response.success){
-					$location.path("/home/" + response.path);
-				}
-				else{
-					FlashService.Error('Falha ao logar, verifique se o usuario e a senha estao corretos', true);
-				}
-			});
-		};
+		if (AuthenticationService.IsAuthenticated()) {
+			AuthenticationService.GoUserHome();
+		} else {
+			AuthenticationService.ClearUser();
+			vm.login = function () {
+				AuthenticationService.authenticate(vm.credentials, function (response) {
+					if (response.success) {
+						$location.path("/home/" + response.path);
+					} else {
+						FlashService.Error('Falha ao logar, verifique se o usuario e a senha estao corretos', true);
+					}
+				});
+			};
+		}
+		
 	});
 
 })();

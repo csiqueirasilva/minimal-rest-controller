@@ -181,7 +181,7 @@ public class ClinicaMedicaDLO {
 
 				medicoClinicaDLO.saveUser(mc);
 
-				cm.getMedicoClinica().add(mc);
+				cm.getMedicos().add(mc);
 			}
 
 			int nEspecialidades = 1 + intAleatorio(4);

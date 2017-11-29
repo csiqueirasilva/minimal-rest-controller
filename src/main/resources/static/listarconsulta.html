@@ -5,6 +5,10 @@
 <h3>Consultas da {{vm.clinicanome}}</h3>
 <div ng-if='vm.username'>
     <div busca-rest profile-path='' rest-path='/consulta/busca/{{vm.username}}/{{vm.clinicaid}}/{busca}/{pagina}'>
+		<busca-rest-th>Data</busca-rest-th>
+        <busca-rest-th>CRM</busca-rest-th>
+        <busca-rest-th>Médico</busca-rest-th>
+		
         <busca-rest-td>{{ objeto.dataConsulta}}</busca-rest-td>
         <busca-rest-td>{{ objeto.medico.crm}}</busca-rest-td>
         <busca-rest-td>{{ objeto.medico.nome}}</busca-rest-td>
