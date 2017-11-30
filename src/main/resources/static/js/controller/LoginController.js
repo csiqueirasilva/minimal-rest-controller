@@ -25,9 +25,9 @@
 			vm.login = function () {
 				AuthenticationService.authenticate(vm.credentials, function (response) {
 					if (response.success) {
-						$location.path("/home/" + response.path);
+						$location.path("/home/" + response.user.role);
 					} else {
-						FlashService.Error('Falha ao logar, verifique se o usuario e a senha estao corretos', true);
+						FlashService.Error('Falha ao logar, verifique se o usuario e a senha estao corretos', false);
 					}
 				});
 			};

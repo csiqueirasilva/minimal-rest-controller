@@ -3,7 +3,10 @@
         <h3 class="text-muted">Formulário de {{vm.modo}} para Paciente</h3>
         <h4 class="text-muted">Por favor preecha o formulário abaixo</h4>
     </div>
-    <div></div>
+    <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash"
+    ng-bind="flash.message">
+    </div>
+    <div>
 		<form ng-submit="vm.register()" name="form" role="form" novalidate>
 			<div ng-include="'form/pessoafisica.html'"></div>
 			<div ng-include="'form/form-submit.html'"></div>

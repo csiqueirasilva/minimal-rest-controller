@@ -15,8 +15,8 @@
 
 	app.controller('RegistroPacienteController', function RegistroPacienteController($location, $rootScope, $window, FlashService, PacienteService, UserService) {
 		var vm = this;
-		vm.modo = "cadastro";
-		vm.register = UserService.Setup($rootScope, vm, PacienteService, $window, $location, FlashService);
+		vm.modo = 'cadastro';
+		vm.register = UserService.Setup($rootScope, vm, PacienteService, $window, $location, FlashService, null, false);
 	});
 
 })();

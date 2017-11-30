@@ -1,4 +1,9 @@
 <h1>Olá Clinica {{vm.user}}!</h1>
+<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash"
+    ng-bind="flash.message">
+</div>
+
+</div>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
 
@@ -6,6 +11,6 @@
             <li role="alterar"><a href="#!/home/clinica/editar/{{vm.user}}">Alterar informações cadastradas</a></li>
             <li role="consultacad"><a href="#!/home/clinica/consulta">Cadastrar Consulta</a></li>
         </ul>
-		
+
     </div>
 </nav>

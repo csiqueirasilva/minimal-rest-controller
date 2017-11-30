@@ -60,31 +60,7 @@
 				}
 			});
 
-		function register() {
-			vm.dataLoading = true;
-
-			ClinicaService.Update(vm.user)
-				.then(function (updateResponse) {
-					vm.dataLoading = false;
-					if (updateResponse.success) {
-						AuthenticationService.authenticate({username: vm.user.username, password: vm.user.password}, function (authResponse) {
-							vm.dataLoading = false;
-							if (authResponse.success) {
-								FlashService.Success('Registro editado com sucesso', true);
-								$location.path("/home/clinica");
-							} else {
-								FlashService.Error(authResponse.message + ': Erro ao editar registro', true);
-								$window.scrollTo(0, 0);
-							}
-						});
-					} else {
-						FlashService.Error(updateResponse.message + ': Erro ao editar registro', true);
-						$window.scrollTo(0, 0);
-					}
-				});
-		}
-
-		vm.register = register;
+			vm.register = UserService.Setup($rootScope, vm, ClinicaService, $window, $location, FlashService, AuthenticationService, false);
 
 	});
 

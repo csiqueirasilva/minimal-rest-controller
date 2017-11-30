@@ -13,7 +13,7 @@
 			});
 	});
 
-	app.controller('HomeClinicaController', function HomeClinicaController($rootScope, $location, $http, UserService, $window, AuthenticationService) {
+	app.controller('HomeClinicaController', function HomeClinicaController($rootScope, $location, $http, UserService, $window, AuthenticationService, FlashService) {
 		var vm = this;
 		
 		AuthenticationService.GetCurrentUser().then(function(user) {

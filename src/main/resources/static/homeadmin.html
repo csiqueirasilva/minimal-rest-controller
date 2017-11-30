@@ -1,4 +1,8 @@
 <h1>Olá Administrador {{vm.user}}!</h1>
+<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash"
+    ng-bind="flash.message">
+</div>
+
 <nav class="navbar navbar-default">
     <div class="container-fluid">
 
@@ -6,6 +10,6 @@
             <li role="alterar"><a href="#!/home/admin/editar/{{vm.user}}"> Alterar informações cadastradas</a></li>
             <li role="listar"><a href="#!/home/admin/listar/user">Listar todos os usuarios do sistema</a></li>
         </ul>
-		
+
     </div>
 </nav>

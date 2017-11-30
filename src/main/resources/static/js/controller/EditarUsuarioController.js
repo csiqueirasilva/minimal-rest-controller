@@ -13,7 +13,7 @@
 			});
 	});
 
-	app.controller('EditarUsuarioController', function ($http, $scope, UserService, PessoaFisicaService, MedicoService, PacienteService, ClinicaService, FlashService, $window, $location, $routeParams, AuthenticationService) {
+	app.controller('EditarUsuarioController', function ($http, $rootScope, $scope, UserService, PessoaFisicaService, MedicoService, PacienteService, ClinicaService, FlashService, $window, $location, $routeParams, AuthenticationService) {
 
 		var PATH_MEDICO = "form/medico.html",
 			PATH_CLINICA = "form/clinica.html",
@@ -27,6 +27,7 @@
 		AuthenticationService.GetCurrentUser().then(function(user) {
 			if(user.data.authorities[0].authority !== 'ADMIN')
 				$location.path("/");
+			vm.username = user.data.name;
 		});
 
 		function getPath(roles) {
@@ -94,6 +95,7 @@
 			.then(function (response) {
 				if (response.success) {
 					vm.user = response.body.data;
+					vm.oldUsername = response.body.data.username;
 					vm.user.password = '';
 					vm.includePath = getPath(vm.user.roles);
 				}
@@ -103,28 +105,24 @@
 			vm.dataLoading = true;
 
 			var service;
+			var role;
 
 			if (vm.includePath === PATH_MEDICO) {
+				role = 'medico'
 				service = MedicoService;
 			} else if (vm.includePath === PATH_CLINICA) {
+				role = 'clinica'
 				service = ClinicaService;
 			} else if (vm.includePath === PATH_ADMIN) {
+				role = 'admin'
 				service = PessoaFisicaService;
 			} else if (vm.includePath === PATH_PACIENTE) {
+				role = 'paciente'
 				service = PacienteService;
 			}
-
-			service.Update(vm.user)
-				.then(function (response) {
-					vm.dataLoading = false;
-					if (response.success) {
-						FlashService.Success('Registro editado com sucesso', true);
-						$location.path("/home/admin/listar/user");
-					} else {
-						FlashService.Error(response.message + ': Erro ao editar registro', true);
-						$window.scrollTo(0, 0);
-					}
-				});
+			var otherUser = !(vm.username == vm.oldUsername);
+			var userRegister = UserService.Setup($rootScope, vm, service, $window, $location, FlashService, AuthenticationService, otherUser);
+			userRegister();
 		}
 
 		vm.register = register;

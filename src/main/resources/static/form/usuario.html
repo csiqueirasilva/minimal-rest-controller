@@ -88,7 +88,3 @@
 	</select>
 	<span ng-show="(form.estado.$dirty || form.estado.$touched) && form.estado.$error.required" class="help-block">O estado é obrigatório</span>
 </div>
-
-<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash"
-	 ng-bind="flash.message">
-</div>

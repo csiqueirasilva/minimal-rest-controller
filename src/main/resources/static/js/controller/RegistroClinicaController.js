@@ -17,7 +17,7 @@
 	function RegistroClinicaController($location, $scope, $http, $rootScope, $window, FlashService, UserService, ClinicaService) {
 
 		var vm = this;
-		vm.modo = "cadastro";
+		vm.modo = 'cadastro';
 
 		$scope.loadEspecialidades = function ($query) {
 			return $http.get('json/especialidades', {cache: true}).then(function (response) {
@@ -46,7 +46,7 @@
 			});
 		};
 
-		vm.register = UserService.Setup($rootScope, vm, ClinicaService, $window, $location, FlashService);
+		vm.register = UserService.Setup($rootScope, vm, ClinicaService, $window, $location, FlashService, null, false);
 	}
 
 })();

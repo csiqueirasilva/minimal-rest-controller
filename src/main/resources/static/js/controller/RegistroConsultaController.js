@@ -17,7 +17,7 @@
 	function RegistroConsultaController($location, $scope, $http, $rootScope, $window, FlashService, UserService, ConsultaService, AuthenticationService) {
 
 		var vm = this;
-		vm.modo = "cadastro";
+		vm.modo = 'cadastro';
 
 		AuthenticationService.GetCurrentUser().then(function(user) {
 			vm.nomeclinica = user.data.name;
@@ -41,7 +41,7 @@
 			});
 		};
 
-		vm.reg = UserService.Setup($rootScope, vm, ConsultaService, $window, $location, FlashService);
+		vm.reg = UserService.Setup($rootScope, vm, ConsultaService, $window, $location, FlashService, null, false);
 
 		vm.register = function () {
 			UserService

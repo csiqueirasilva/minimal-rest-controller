@@ -33,10 +33,10 @@
                 var cookieExp = new Date();
                 cookieExp.setDate(cookieExp.getDate() + 7);
                 $cookies.putObject('usuarioAtual', $rootScope.usuarioAtual, { expires: cookieExp });
-                callback && callback({ success: true, path: $rootScope.usuarioAtual.role });
+                callback && callback({ success: true, user : $rootScope.usuarioAtual });
             }, function () {
                 $rootScope.usuarioAtual = {};
-                callback && callback({});
+                callback && callback({ success: false, user : null });
             });
         };
 
@@ -47,10 +47,11 @@
         function ClearUser(callback) {
             if ($cookies.get('usuarioAtual')) {
                 $http.post('/logout', {}).finally(function () {
+                    $window.location.reload();
                     $rootScope.usuarioAtual = {};
                     $cookies.remove('usuarioAtual');
 					$location.path("/");
-					$rootScope.logout = false;
+                    $rootScope.logout = false;
                 });
             }
         }
