@@ -16,7 +16,8 @@
 	app.controller('HomePacienteController', function HomePacienteController($rootScope, $location, $http, UserService, $window, $cookies, AuthenticationService) {
 		var vm = this;
 		AuthenticationService.GetCurrentUser().then(function(user) {
-			vm.user = user.data.name;
+			if(user.data.authorities["0"].authority == 'PACIENTE')
+				vm.user = user.data.name;
 		});
 	});
 

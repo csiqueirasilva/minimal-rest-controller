@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UsuarioDAO extends CrudRepository<Usuario, Long> {
 
-    Usuario findByUsername(String username);
+	Usuario findByUsername(String username);
 
-    Usuario findByEmail(String email);
+	Usuario findByEmail(String email);
 
-    @Query("SELECT DISTINCT c FROM Usuario c, Busca b WHERE b.uuid = :uuid AND (LOWER(c.username) LIKE CONCAT('%', LOWER(b.termo), '%') OR LOWER(c.email) LIKE CONCAT('%', LOWER(b.termo), '%'))")
-    public Page<Usuario> busca(@Param("uuid") String uuid, Pageable req);
+	@Query("SELECT DISTINCT c FROM Usuario c, Busca b WHERE b.uuid = :uuid AND (LOWER(c.username) LIKE CONCAT('%', LOWER(b.termo), '%') OR LOWER(c.email) LIKE CONCAT('%', LOWER(b.termo), '%'))")
+	public Page<Usuario> busca(@Param("uuid") String uuid, Pageable req);
 
 }

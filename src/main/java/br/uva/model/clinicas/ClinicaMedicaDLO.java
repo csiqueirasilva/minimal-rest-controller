@@ -1,16 +1,5 @@
 package br.uva.model.clinicas;
 
-import br.uva.model.clinicas.exames.ExameMedico;
-import br.uva.model.clinica.medicos.MedicoClinica;
-import br.uva.model.clinica.especialidades.Especialidade;
-import br.uva.model.clinica.buscas.BuscaDLO;
-import br.uva.model.clinica.especialidades.EspecialidadeDLO;
-import br.uva.model.clinica.medicos.MedicoClinicaDLO;
-import br.uva.model.clinicas.exames.ExameMedicoDLO;
-import br.uva.model.clinicas.pacientes.Paciente;
-import br.uva.model.user.RoleUsuario;
-import br.uva.model.user.RoleUsuarioDAO;
-import br.uva.model.user.UsuarioDLO;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +9,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +17,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import br.uva.model.clinica.buscas.BuscaDLO;
+import br.uva.model.clinica.especialidades.Especialidade;
+import br.uva.model.clinica.especialidades.EspecialidadeDLO;
+import br.uva.model.clinica.medicos.MedicoClinica;
+import br.uva.model.clinica.medicos.MedicoClinicaDLO;
+import br.uva.model.clinicas.exames.ExameMedico;
+import br.uva.model.clinicas.exames.ExameMedicoDLO;
+import br.uva.model.user.RoleUsuario;
+import br.uva.model.user.RoleUsuarioDAO;
+import br.uva.model.user.UsuarioDLO;
 
 /**
  *
@@ -37,7 +38,10 @@ public class ClinicaMedicaDLO {
 
 	private final static int RNG_TEST_NUMBER = 26;
 
-	private final static String[] LISTA_NOMES = {"Michael", "Jackson", "Golias", "Almirante", "Nacional", "Japones", "Coreano", "Chinesa", "Arte Milenar", "Jacinto", "Leite", "Milenar", "Teste", "Bangu", "Alameda", "Caxias", "Leblon", "Rural", "Economica", "Bom Jesus", "Santo Milagre", "De Santos", "Últimas Horas", "Maria", "Jardim", "Macarena", "Contoso", "Microsoft", "Delphi", "Debian", "Levanta até Defunto", "Coisas da Vida"};
+	private final static String[] LISTA_NOMES = { "Michael", "Jackson", "Golias", "Almirante", "Nacional", "Japones",
+			"Coreano", "Chinesa", "Arte Milenar", "Jacinto", "Leite", "Milenar", "Teste", "Bangu", "Alameda", "Caxias",
+			"Leblon", "Rural", "Economica", "Bom Jesus", "Santo Milagre", "De Santos", "Últimas Horas", "Maria",
+			"Jardim", "Macarena", "Contoso", "Microsoft", "Delphi", "Debian", "Levanta até Defunto", "Coisas da Vida" };
 
 	@Autowired
 	private ExameMedicoDLO exameMedicoDLO;
@@ -209,6 +213,7 @@ public class ClinicaMedicaDLO {
 		}
 
 	}
+
 	public ClinicaMedica obterClinica(Long id) {
 		ClinicaMedica cm = null;
 		try {
@@ -217,7 +222,7 @@ public class ClinicaMedicaDLO {
 		}
 		return cm;
 	}
-	
+
 	@Transactional
 	public void saveClinica(ClinicaMedica clinica) {
 		try {
@@ -227,7 +232,7 @@ public class ClinicaMedicaDLO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private String nomeDuploAleatorio() {
 		String nome1 = nomeAleatorio();
 		String nome2;
@@ -236,13 +241,12 @@ public class ClinicaMedicaDLO {
 		} while (nome2.equals(nome1));
 		return nome1 + " " + nome2;
 	}
-	
 
 	public ClinicaMedica findByUsername(String user) {
 		return dao.findByUsername(user);
 	}
-	
-	public Iterable<MedicoClinica> buscaMedicos(Long id){
+
+	public Iterable<MedicoClinica> buscaMedicos(Long id) {
 		return dao.findAllMedicos(id);
 	}
 }

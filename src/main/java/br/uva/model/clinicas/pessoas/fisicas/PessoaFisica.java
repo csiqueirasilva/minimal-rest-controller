@@ -1,15 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.uva.model.clinicas.pessoas.fisicas;
 
-import br.uva.model.clinicas.pessoas.Pessoa;
-import br.uva.tools.CustomDateDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,17 +10,27 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import br.uva.model.clinicas.pessoas.Pessoa;
+import br.uva.tools.CustomDateDeserializer;
+
 /**
  *
  * @author csiqueira
  */
 @Entity
 public class PessoaFisica extends Pessoa implements Serializable {
-	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@Override
 	public Long getId() {
 		return id;
@@ -37,17 +40,17 @@ public class PessoaFisica extends Pessoa implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	@Column(nullable = false)
 	private String sexo;
 
 	@Column(nullable = false)
 	private String cpf;
-	
+
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonDeserialize(using = CustomDateDeserializer.class)
-	
+
 	private Date dataNascimento;
 
 	@Column
@@ -84,5 +87,5 @@ public class PessoaFisica extends Pessoa implements Serializable {
 	public void setCelular(String celular) {
 		this.celular = celular;
 	}
-	
+
 }

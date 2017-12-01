@@ -18,19 +18,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableAutoConfiguration
 @ComponentScan
 public class SpringBootApplicationInitializer extends SpringBootServletInitializer {
-	
+
 	@Bean
 	public WebSecurityConfigurerAdapter webSecurityConfigurerAdapter() {
 		return new SecurityConfiguration();
 	}
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(SpringBootApplicationInitializer.class);
-    }
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(SpringBootApplicationInitializer.class);
+	}
 
-    public static void main(String[] args) {
-        SpringApplication.run(SpringBootApplicationInitializer.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootApplicationInitializer.class, args);
+	}
 
 }

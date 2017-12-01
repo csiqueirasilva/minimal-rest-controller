@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.uva.model.user.Usuario;
@@ -32,27 +32,29 @@ public class UsuarioController {
 		users.forEach(list::add);
 
 		if (list.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<Usuario>>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(list, HttpStatus.OK);
+		return new ResponseEntity<List<Usuario>>(list, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/id/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@RequestMapping(value = "/id/{id}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<Usuario> getUser(@PathVariable("id") Long id) {
 		Usuario user = userService.findById(id);
 		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(user, HttpStatus.OK);
+		return new ResponseEntity<Usuario>(user, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{username:.+}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<Usuario> getUser(@PathVariable("username") String username) {
+	@RequestMapping(value = "/{username:.+}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE })
+	public ResponseEntity<Usuario> getUserbyUsername(@PathVariable("username") String username) {
 		Usuario user = userService.findByUsername(username);
 		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(user, HttpStatus.OK);
+		return new ResponseEntity<Usuario>(user, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
@@ -63,38 +65,39 @@ public class UsuarioController {
 		userService.saveUser(user);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
-		return new ResponseEntity<>(headers, HttpStatus.CREATED);
+		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Usuario> deleteUser(@PathVariable long id, @RequestBody Usuario user) {
+	public ResponseEntity<Usuario> updateUser(@PathVariable long id, @RequestBody Usuario user) {
 		if (userService.findById(id) == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
 		}
 		userService.updateUser(user);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<Usuario>(HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Usuario> deleteUser(@PathVariable("id") long id) {
 		Usuario user = userService.findById(id);
 		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
 		}
 
 		userService.deleteUserById(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Usuario>(HttpStatus.NO_CONTENT);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.DELETE)
 	public ResponseEntity<Usuario> deleteAllUsers() {
 
 		userService.deleteAllUsers();
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Usuario>(HttpStatus.NO_CONTENT);
 	}
 
-	@RequestMapping(value = {"/busca/{query}/{pageNumber}", "/busca/{query}"})
-	public Iterable<Usuario> busca(@PathVariable(required = false) Integer pageNumber, @PathVariable(required = false) String query) {
+	@RequestMapping(value = { "/busca/{query}/{pageNumber}", "/busca/{query}" })
+	public Iterable<Usuario> busca(@PathVariable(required = false) Integer pageNumber,
+			@PathVariable(required = false) String query) {
 
 		Iterable<Usuario> ret = null;
 

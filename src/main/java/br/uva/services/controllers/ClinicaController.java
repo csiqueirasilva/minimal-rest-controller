@@ -1,15 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.uva.services.controllers;
 
-import br.uva.model.clinica.medicos.MedicoClinica;
-import br.uva.model.clinicas.ClinicaMedica;
-import br.uva.model.clinicas.ClinicaMedicaDLO;
-import br.uva.model.clinicas.pacientes.Paciente;
-import br.uva.model.user.UsuarioDLO;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.uva.model.clinica.medicos.MedicoClinica;
+import br.uva.model.clinicas.ClinicaMedica;
+import br.uva.model.clinicas.ClinicaMedicaDLO;
+
 /**
  *
  * @author csiqueira
@@ -33,41 +27,53 @@ public class ClinicaController {
 
 	@Autowired
 	private ClinicaMedicaDLO dlo;
+
+	@RequestMapping(value = "/{username:.+}", method = RequestMethod.GET)
+	public ResponseEntity<ClinicaMedica> getByUsername(@PathVariable("username") String username) {
+		ClinicaMedica c = dlo.findByUsername(username);
+		if (c == null) {
+			return new ResponseEntity<ClinicaMedica>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<ClinicaMedica>(c, HttpStatus.OK);
+	}
 	
-	@Autowired
-	private UsuarioDLO usuarioDLO;
-
-
+	@RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
+	public ResponseEntity<ClinicaMedica> getById(@PathVariable("id") Long id) {
+		ClinicaMedica c = dlo.obterClinica(id);
+		if (c == null) {
+			return new ResponseEntity<ClinicaMedica>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<ClinicaMedica>(c, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public ResponseEntity<Void> create(@RequestBody ClinicaMedica consulta, UriComponentsBuilder ucBuilder) {
 		dlo.saveClinica(consulta);
 		HttpHeaders headers = new HttpHeaders();
-		return new ResponseEntity<>(headers, HttpStatus.CREATED);
+		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> updateClinica(@PathVariable long id, @RequestBody ClinicaMedica user) {
 		if (dlo.obterClinica(id) == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 		dlo.saveClinica(user);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-
 
 	@RequestMapping(value = "/medicos/{username:.+}", method = RequestMethod.GET)
 	public Iterable<MedicoClinica> getMedicos(@PathVariable("username") String username) {
 
 		Iterable<MedicoClinica> ret = new ArrayList<>();
-		
+
 		try {
 			ClinicaMedica cm = dlo.findByUsername(username);
 			ret = cm.getMedicos();
 		} catch (Exception e) {
 		}
-		
+
 		return ret;
 	}
-	
-	
+
 }

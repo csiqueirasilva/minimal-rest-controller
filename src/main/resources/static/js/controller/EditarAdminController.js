@@ -20,11 +20,15 @@
 		vm.modo = "alteração";
 		
 		AuthenticationService.GetCurrentUser().then(function(user) {
-			if(user.data.name !== vm.oldUsername && user.data.authorities[0].authority !== 'ADMIN')
-				$location.path("/");
+			var path = user.data.authorities[0].authority.toLowerCase();
+			if(path != 'admin'){
+				$location.path("/home/"+path);
+				FlashService.Error('Você não pode acessar esta pagina', true);
+			}
+			user.data.name==vm.oldUsername ? vm.keepLogin = true : vm.keepLogin = false;
 		});
 
-			UserService
+			PessoaFisicaService
 				.GetByUsername(vm.oldUsername)
 				.then(function (response) {
 					if (response.success) {
@@ -33,7 +37,7 @@
 					}
 				});
 
-			vm.register = UserService.Setup($rootScope, vm, PessoaFisicaService, $window, $location, FlashService, AuthenticationService, false);
+			vm.register = UserService.Setup($rootScope, vm, PessoaFisicaService, $window, $location, FlashService, AuthenticationService);
 
 	});
 

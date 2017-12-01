@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PessoaFisicaDAO extends CrudRepository<PessoaFisica, Long> {
 
-    PessoaFisica findByUsername(String username);
+	PessoaFisica findByUsername(String username);
 
-    PessoaFisica findByEmail(String email);
+	PessoaFisica findByEmail(String email);
 
 }

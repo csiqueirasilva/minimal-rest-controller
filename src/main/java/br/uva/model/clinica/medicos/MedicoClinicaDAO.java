@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MedicoClinicaDAO extends CrudRepository<MedicoClinica, Long> {
-	 MedicoClinica findByUsername(String username);
-	 MedicoClinica findByEmail(String email);
+	MedicoClinica findByUsername(String username);
+
+	MedicoClinica findByEmail(String email);
 }

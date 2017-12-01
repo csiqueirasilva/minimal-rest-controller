@@ -1,18 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.uva.services.controllers;
-
-import br.uva.model.clinicas.ClinicaMedica;
-import br.uva.model.clinicas.pacientes.Paciente;
-import br.uva.model.clinicas.pacientes.PacienteDLO;
-import br.uva.model.user.Usuario;
-import br.uva.model.user.UsuarioDLO;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,6 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.uva.model.clinicas.ClinicaMedica;
+import br.uva.model.clinicas.pacientes.Paciente;
+import br.uva.model.clinicas.pacientes.PacienteDLO;
+
 /**
  *
  * @author csiqueira
@@ -36,9 +30,6 @@ public class PacienteController {
 
 	@Autowired
 	private PacienteDLO dlo;
-	
-	@Autowired
-	private UsuarioDLO usuarioDLO;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ResponseEntity<List<Paciente>> listAllUsers() {
@@ -52,7 +43,8 @@ public class PacienteController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{username:.+}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@RequestMapping(value = "/{username:.+}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<Paciente> getUser(@PathVariable("username") String username) {
 		Paciente user = dlo.findByUsername(username);
 		if (user == null) {
@@ -71,11 +63,12 @@ public class PacienteController {
 		headers.setLocation(ucBuilder.path("/paciente/{id}").buildAndExpand(user.getId()).toUri());
 		return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	}
-	
-	@RequestMapping(value = "/{username:.+}/{id}", method = RequestMethod.POST)
-	public ResponseEntity<Void> createMinhaClinica(@PathVariable("username") String username, @PathVariable("id") Long clinicaId) {
 
-		if(!dlo.addClinica(clinicaId, username)){
+	@RequestMapping(value = "/{username:.+}/{id}", method = RequestMethod.POST)
+	public ResponseEntity<Void> createMinhaClinica(@PathVariable("username") String username,
+			@PathVariable("id") Long clinicaId) {
+
+		if (!dlo.addClinica(clinicaId, username)) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<>(HttpStatus.CREATED);
@@ -107,19 +100,22 @@ public class PacienteController {
 		dlo.deleteAllUsers();
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
-	@RequestMapping(value = "/{username:.+}/{clinicaid}", method = RequestMethod.DELETE )
-	public @ResponseBody void deleteMinhaClinica(@PathVariable("username") String username, @PathVariable("clinicaid") Long clinicaid) {
+
+	@RequestMapping(value = "/{username:.+}/{clinicaid}", method = RequestMethod.DELETE)
+	public @ResponseBody void deleteMinhaClinica(@PathVariable("username") String username,
+			@PathVariable("clinicaid") Long clinicaid) {
 		dlo.deleteClinica(clinicaid, username);
 	}
-	
-	@RequestMapping(value = {"/busca/{username:.+}/{query}/{pageNumber}", "/busca/{username:.+}/{query}","/busca/{username:.+}"})
-	public Iterable<ClinicaMedica> busca(@PathVariable("username") String username, @PathVariable(required = false) String query, @PathVariable(required = false) Integer pageNumber ) {
+
+	@RequestMapping(value = { "/busca/{username:.+}/{query}/{pageNumber}", "/busca/{username:.+}/{query}",
+			"/busca/{username:.+}" })
+	public Iterable<ClinicaMedica> busca(@PathVariable("username") String username,
+			@PathVariable(required = false) String query, @PathVariable(required = false) Integer pageNumber) {
 
 		Iterable<ClinicaMedica> ret = null;
 
 		Paciente p = dlo.findByUsername(username);
-		
+
 		if (query == null) {
 			query = "";
 		}
@@ -131,5 +127,5 @@ public class PacienteController {
 
 		return ret;
 	}
-	
+
 }

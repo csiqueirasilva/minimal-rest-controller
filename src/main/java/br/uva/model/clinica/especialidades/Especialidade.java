@@ -2,6 +2,7 @@ package br.uva.model.clinica.especialidades;
 
 import java.io.Serializable;
 import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,10 +15,15 @@ import javax.persistence.Id;
 @Entity
 public class Especialidade implements Serializable, Comparable<Especialidade> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@Column(unique = true, nullable = false)
 	private String nome;
 
@@ -41,5 +47,5 @@ public class Especialidade implements Serializable, Comparable<Especialidade> {
 	public int compareTo(Especialidade o) {
 		return Objects.equals(o.id, this.id) ? 0 : this.nome.compareTo(o.nome);
 	}
-	
+
 }

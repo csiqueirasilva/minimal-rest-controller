@@ -17,6 +17,11 @@ import javax.persistence.ManyToMany;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue
 	@Column
@@ -33,7 +38,7 @@ public class Usuario implements Serializable {
 
 	@Column(nullable = false)
 	private boolean active;
-	
+
 	@ManyToMany
 	@JoinTable(name = "roles_usuario", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<RoleUsuario> roles;

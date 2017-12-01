@@ -1,16 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.uva.model.clinicas.exames;
 
-import com.google.common.collect.Iterables;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Iterables;
 
 /**
  *
@@ -47,7 +44,7 @@ public class ExameMedicoDLO {
 
 		dao.save(exames);
 	}
-	
+
 	public ExameMedico getRandom() {
 		Iterable<ExameMedico> all = dao.findAll();
 		int position = (int) (Iterables.size(all) * Math.random());

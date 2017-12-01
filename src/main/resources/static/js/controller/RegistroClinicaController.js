@@ -46,7 +46,7 @@
 			});
 		};
 
-		vm.register = UserService.Setup($rootScope, vm, ClinicaService, $window, $location, FlashService, null, false);
+		vm.register = UserService.Setup($rootScope, vm, ClinicaService, $window, $location, FlashService);
 	}
 
 })();

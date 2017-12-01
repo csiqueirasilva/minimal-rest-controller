@@ -4,22 +4,41 @@
 
 	app.config(function ($routeProvider, $httpProvider) {
 
+		$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
 		$routeProvider
 			.otherwise({
 				redirectTo: "/"
 			});
 
-		$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-		$httpProvider.interceptors.push(function ($q, $location, FlashService) {
+		$httpProvider.interceptors.push(function ($q, $location, FlashService, $cookies) {
 			return {
 				'responseError': function (rejection) {
-					if (rejection.status === 401) {
-						$location.path('/');
-
+					var usuarioAtual = $cookies.getObject('usuarioAtual');
+					if (rejection.status === 400) {
+						if (usuarioAtual)
+							$location.path("/home/" + usuarioAtual.role);
+						else
+							$location.path("/");
+						FlashService.Error('URL Inválida', true);
+					} else if (rejection.status === 401) {
+						if (usuarioAtual)
+							$location.path("/home/" + usuarioAtual.role);
+						else
+							$location.path("/");
+						FlashService.Error('Você não pode acessar esta pagina', true);
+					} else if (rejection.status === 403) {
+						if (usuarioAtual)
+							$location.path("/home/" + usuarioAtual.role);
+						else
+							$location.path("/");
+						FlashService.Error('Você não pode acessar esta pagina', true);
 					} else if (rejection.status === 404) {
+						if (usuarioAtual)
+							$location.path("/home/" + usuarioAtual.role);
+						else
+							$location.path("/");
 						FlashService.Error('Pagina nao encontrada', true);
-						$location.path('/');
 					}
 					return $q.reject(rejection);
 				}

@@ -1,16 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.uva.services.controllers;
-
-import br.uva.model.clinicas.ClinicaMedica;
-import br.uva.model.clinicas.consultas.Consulta;
-import br.uva.model.clinicas.consultas.ConsultaDLO;
-import br.uva.model.clinicas.pacientes.Paciente;
-import br.uva.model.clinicas.pacientes.PacienteDLO;
-import br.uva.model.clinicas.ClinicaMedicaDLO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.uva.model.clinicas.consultas.Consulta;
+import br.uva.model.clinicas.consultas.ConsultaDLO;
+import br.uva.model.clinicas.pacientes.Paciente;
+import br.uva.model.clinicas.pacientes.PacienteDLO;
+
 /**
  *
  * @author csiqueira
@@ -33,12 +26,9 @@ public class ConsultaController {
 
 	@Autowired
 	private ConsultaDLO dlo;
-	
+
 	@Autowired
 	private PacienteDLO PacienteDLO;
-	
-	@Autowired
-	private ClinicaMedicaDLO ClinicaDLO;
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public ResponseEntity<Void> createConsulta(@RequestBody Consulta consulta, UriComponentsBuilder ucBuilder) {
@@ -46,13 +36,15 @@ public class ConsultaController {
 		HttpHeaders headers = new HttpHeaders();
 		return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	}
-	
-	@RequestMapping(value = {"/busca/{username:.+}/{clinicaid}/{query}/{pageNumber}", "/busca/{username:.+}/{clinicaid}/{query}","/busca/{username:.+}/{clinicaid}"})
-	public Iterable<Consulta> busca(@PathVariable("username") String username, @PathVariable("clinicaid") Long id, @PathVariable(required = false) String query, @PathVariable(required = false) Integer pageNumber ) {
+
+	@RequestMapping(value = { "/busca/{username:.+}/{clinicaid}/{query}/{pageNumber}",
+			"/busca/{username:.+}/{clinicaid}/{query}", "/busca/{username:.+}/{clinicaid}" })
+	public Iterable<Consulta> busca(@PathVariable("username") String username, @PathVariable("clinicaid") Long id,
+			@PathVariable(required = false) String query, @PathVariable(required = false) Integer pageNumber) {
 		Iterable<Consulta> ret = null;
 
 		Paciente p = PacienteDLO.findByUsername(username);
-		
+
 		if (query == null) {
 			query = "";
 		}

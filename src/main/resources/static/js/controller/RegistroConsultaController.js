@@ -41,7 +41,7 @@
 			});
 		};
 
-		vm.reg = UserService.Setup($rootScope, vm, ConsultaService, $window, $location, FlashService, null, false);
+		vm.reg = UserService.Setup($rootScope, vm, ConsultaService, $window, $location, FlashService);
 
 		vm.register = function () {
 			UserService

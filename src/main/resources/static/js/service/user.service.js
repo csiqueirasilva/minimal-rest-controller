@@ -5,6 +5,7 @@
         .module('main')
         .factory('UserService', UserService);
 
+    UserService.$inject = ['$http', '$rootScope'];
     function UserService($http, $rootScope) {
         var service = {};
 
@@ -14,7 +15,7 @@
 
         return service;
 
-        function Setup(scope, vm, service, window, location, FlashService, AuthenticationService, adminEdit) {
+        function Setup(scope, vm, service, window, location, FlashService, AuthenticationService) {
 
             scope.dateOptions = {
                 maxDate: new Date(),
@@ -31,56 +32,56 @@
 
             function register() {
                 vm.dataLoading = true;
-                switch(vm.modo) {
-                    case 'alteração':
-                        service.Update(vm.user)
+                if (vm.modo == 'alteração') {
+                    service.Update(vm.user)
                         .then(function (updateResponse) {
                             if (updateResponse.success) {
-                                if(!adminEdit){
-                                    AuthenticationService.authenticate({ username : vm.user.username, password : vm.user.password }, function(authResponse){
+                                if (vm.keepLogin) {
+                                    AuthenticationService.authenticate({ username: vm.user.username, password: vm.user.password }, function (authResponse) {
                                         vm.dataLoading = false;
-                                        if(authResponse.success){
+                                        if (authResponse.success) {
                                             FlashService.Success('Alteração dos dados de ' + authResponse.user.username + ' bem sucedida', true);
-                                            location.path('/home/'+$rootScope.usuarioAtual.role);
+                                            location.path('/home/' + $rootScope.usuarioAtual.role);
                                         }
-                                        else{
+                                        else {
                                             FlashService.Error(authResponse.message + ': Erro ao alterar dados', false);
                                             window.scrollTo(0, 0);
                                         }
                                     });
                                 }
-                                else{
+                                else {
                                     vm.dataLoading = false;
                                     FlashService.Success('Alteração dos dados bem sucedida', true);
                                     location.path('/home/admin');
                                 }
-                            } else {
+                            }
+                            else {
                                 vm.dataLoading = false;
                                 FlashService.Error(updateResponse.message + ': Erro ao alterar dados', false);
                                 window.scrollTo(0, 0);
                             }
                         });
-                        break;
-                    case 'cadastro':
-                        service.Create(vm.user)
+                }
+                else {
+                    service.Create(vm.user)
                         .then(function (response) {
                             vm.dataLoading = false;
                             if (response.success) {
                                 if (response.body.status === 201) {
                                     FlashService.Success('Cadastro bem sucedido', true);
-                                    vm.nomeclinica ? location.path('/home/clinica') : location.path('/');
+                                    vm.nomeclinica ? location.path('/home/clinica') : location.path('/'); //consulta
                                 }
                             } else {
                                 FlashService.Error(response.message + ': Nome de usuario ja existe', false);
                                 window.scrollTo(0, 0);
                             }
                         });
-                        break;
                 }
             }
-
             return register;
         }
+
+
 
         function GetById(id) {
             return $http.get('/user/id/' + id).then(handleSuccess, handleError('Error getting user by id'));

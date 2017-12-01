@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,40 +16,40 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class BuscaDLO {
-	
+
 	public final static int PAGE_SIZE = 20;
-	
+
 	@Autowired
-	private BuscaDAO dao;	
-	
+	private BuscaDAO dao;
+
 	public String criar(String query) {
 		String[] ref = query.split("[ ]+");
 		List<String> input;
 
-		if(ref.length == 0) {
+		if (ref.length == 0) {
 			input = new ArrayList<String>();
 			input.add("");
 		} else {
 			input = Arrays.asList(ref);
 		}
-		
+
 		List<Busca> keywords = new ArrayList<Busca>();
 		String uuid = UUID.randomUUID().toString();
-		
-		for(String i : input) {
+
+		for (String i : input) {
 			Busca b = new Busca();
 			b.setTermo(i);
 			b.setUuid(uuid);
 			keywords.add(b);
 		}
-		
+
 		dao.save(keywords);
-		
+
 		return uuid;
 	}
 
 	public void excluir(String uuid) {
 		dao.deleteByUuid(uuid);
 	}
-	
+
 }

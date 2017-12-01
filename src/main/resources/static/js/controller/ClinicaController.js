@@ -40,13 +40,10 @@
 		$scope.addClinica = function () {
 			AuthenticationService.GetCurrentUser().then(function(user){
 				if(user.data.authorities["0"].authority == "PACIENTE"){
-					$http.post('/paciente/' + user.data.name + '/' + id).then(
+					$http.post('/paciente/' + user.data.name + '/' + id).finally(
 						function () {
 							$location.path("/home/paciente");
-						},
-						function () {
-							$location.path("/");
-						});
+					});
 				}
 			})
 		}

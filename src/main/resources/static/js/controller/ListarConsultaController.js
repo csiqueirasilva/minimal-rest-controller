@@ -13,7 +13,7 @@
 			});
 	});
 
-	app.controller('ListarConsultaController', function ($http, $scope, FlashService, $window, $location, $routeParams, UserService, AuthenticationService) {
+	app.controller('ListarConsultaController', function ($http, $scope, FlashService, $window, $location, $routeParams, ClinicaService, AuthenticationService) {
 
 		var vm = this;
 		vm.clinicaid = $routeParams.id;
@@ -22,13 +22,17 @@
 
 		function initController() {
 			AuthenticationService.GetCurrentUser().then(function(user) {
-				vm.username = user.data.name;
+				if(user.data.authorities["0"].authority == 'PACIENTE')
+					vm.username = user.data.name;
 			});
-			UserService
+			ClinicaService
 			.GetById(vm.clinicaid)
 			.then(function (response) {
 				if (response.success) {
 					vm.clinicanome = response.body.data.nome;
+				}
+				else{
+					$location.path("/logout"); // BUG NA DIRETIVA DE BUSCA, MELHOR DAR LOGOUT
 				}
 			});
 		}

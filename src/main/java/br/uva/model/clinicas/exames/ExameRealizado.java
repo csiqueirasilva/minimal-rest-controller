@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.uva.model.clinicas.exames;
 
-import br.uva.tools.CustomDateDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,12 +11,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import br.uva.tools.CustomDateDeserializer;
+
 /**
  *
  * @author csiqueira
  */
 @Entity
 public class ExameRealizado implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
@@ -59,5 +62,5 @@ public class ExameRealizado implements Serializable {
 	public void setExame(ExameMedico exame) {
 		this.exame = exame;
 	}
-	
+
 }

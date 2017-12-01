@@ -1,15 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.uva.model.clinicas.pessoas.juridicas;
 
-import br.uva.model.clinicas.pessoas.Pessoa;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import br.uva.model.clinicas.pessoas.Pessoa;
 
 /**
  *
@@ -17,11 +13,16 @@ import javax.persistence.Id;
  */
 @Entity
 public class PessoaJuridica extends Pessoa {
-	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@Column(nullable = false)
 	private String cnpj;
 
@@ -42,5 +43,5 @@ public class PessoaJuridica extends Pessoa {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 }

@@ -25,9 +25,6 @@
 		vm.modo = "alteração";
 
 		AuthenticationService.GetCurrentUser().then(function(user) {
-			if(user.data.authorities[0].authority !== 'ADMIN')
-				$location.path("/");
-			vm.username = user.data.name;
 		});
 
 		function getPath(roles) {
@@ -94,8 +91,10 @@
 			.GetById(id)
 			.then(function (response) {
 				if (response.success) {
+					AuthenticationService.GetCurrentUser().then(function(user) {
+						response.body.data.username == user.data.name ? vm.keepLogin = true : vm.keepLogin = false;
+					});
 					vm.user = response.body.data;
-					vm.oldUsername = response.body.data.username;
 					vm.user.password = '';
 					vm.includePath = getPath(vm.user.roles);
 				}
@@ -105,23 +104,17 @@
 			vm.dataLoading = true;
 
 			var service;
-			var role;
 
 			if (vm.includePath === PATH_MEDICO) {
-				role = 'medico'
 				service = MedicoService;
 			} else if (vm.includePath === PATH_CLINICA) {
-				role = 'clinica'
 				service = ClinicaService;
 			} else if (vm.includePath === PATH_ADMIN) {
-				role = 'admin'
 				service = PessoaFisicaService;
 			} else if (vm.includePath === PATH_PACIENTE) {
-				role = 'paciente'
 				service = PacienteService;
 			}
-			var otherUser = !(vm.username == vm.oldUsername);
-			var userRegister = UserService.Setup($rootScope, vm, service, $window, $location, FlashService, AuthenticationService, otherUser);
+			var userRegister = UserService.Setup($rootScope, vm, service, $window, $location, FlashService, AuthenticationService);
 			userRegister();
 		}
 

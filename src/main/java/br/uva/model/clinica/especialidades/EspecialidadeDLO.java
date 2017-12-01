@@ -11,16 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class EspecialidadeDLO {
-	
-	private final static String[] LISTA_NOMES = {"Cardiologia", "Maternidade", "Odontologia", "Oncologia", "Otorrinolaringologia", "Pediatria", "Psicologia", "Psiquiatria", "Endocrinologia", "Urologia", "Obstreta", "Pneumologia", "Alergista", "Ginecologia", "Clínico Geral", "Vacinação Infantil", "Vacinação Adulta", "Mudança de sexo", "Redesignação Sexual"};
-	
+
+	private final static String[] LISTA_NOMES = { "Cardiologia", "Maternidade", "Odontologia", "Oncologia",
+			"Otorrinolaringologia", "Pediatria", "Psicologia", "Psiquiatria", "Endocrinologia", "Urologia", "Obstreta",
+			"Pneumologia", "Alergista", "Ginecologia", "Clínico Geral", "Vacinação Infantil", "Vacinação Adulta",
+			"Mudança de sexo", "Redesignação Sexual" };
+
 	@Autowired
-	private EspecialidadeDAO dao;	
-	
+	private EspecialidadeDAO dao;
+
 	public Iterable<Especialidade> findAll() {
 		return dao.findAll();
 	}
-	
+
 	public void criarEspecialidades() {
 		for (String nomeEspecialidade : LISTA_NOMES) {
 			Especialidade e = new Especialidade();
@@ -28,5 +31,5 @@ public class EspecialidadeDLO {
 			dao.save(e);
 		}
 	}
-	
+
 }

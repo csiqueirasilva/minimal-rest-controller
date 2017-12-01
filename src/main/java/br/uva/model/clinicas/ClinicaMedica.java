@@ -1,14 +1,10 @@
 package br.uva.model.clinicas;
 
-import br.uva.model.clinicas.exames.ExameMedico;
-import br.uva.model.clinicas.pacientes.Paciente;
-import br.uva.model.clinica.medicos.MedicoClinica;
-import br.uva.model.clinica.especialidades.Especialidade;
-import br.uva.model.clinicas.pessoas.juridicas.PessoaJuridica;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -18,12 +14,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import br.uva.model.clinica.especialidades.Especialidade;
+import br.uva.model.clinica.medicos.MedicoClinica;
+import br.uva.model.clinicas.exames.ExameMedico;
+import br.uva.model.clinicas.pessoas.juridicas.PessoaJuridica;
+
 /**
  *
  * @author csiqueira
  */
 @Entity
 public class ClinicaMedica extends PessoaJuridica {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
@@ -44,7 +50,7 @@ public class ClinicaMedica extends PessoaJuridica {
 
 	@Column
 	private String emailDeContato;
-	
+
 	@ElementCollection
 	private Set<String> telefonesDeContato;
 
@@ -70,7 +76,7 @@ public class ClinicaMedica extends PessoaJuridica {
 		this.exames = new ArrayList<ExameMedico>();
 		this.medicos = new ArrayList<MedicoClinica>();
 	}
-	
+
 	public Set<Especialidade> getEspecialidades() {
 		return especialidades;
 	}
@@ -102,7 +108,7 @@ public class ClinicaMedica extends PessoaJuridica {
 	public void setMedicos(List<MedicoClinica> medicos) {
 		this.medicos = medicos;
 	}
-	
+
 	@Override
 	public Long getId() {
 		return id;

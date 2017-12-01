@@ -1,10 +1,11 @@
 package br.uva.model.clinica.medicos;
 
-import br.uva.model.clinicas.pessoas.fisicas.PessoaFisica;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import br.uva.model.clinicas.pessoas.fisicas.PessoaFisica;
 
 /**
  *
@@ -12,11 +13,16 @@ import javax.persistence.Id;
  */
 @Entity
 public class MedicoClinica extends PessoaFisica {
-	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@Column
 	private Long CRM;
 
@@ -30,7 +36,7 @@ public class MedicoClinica extends PessoaFisica {
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-	
+
 	@Override
 	public Long getId() {
 		return id;
@@ -48,5 +54,5 @@ public class MedicoClinica extends PessoaFisica {
 	public void setCRM(Long CRM) {
 		this.CRM = CRM;
 	}
-	
+
 }
