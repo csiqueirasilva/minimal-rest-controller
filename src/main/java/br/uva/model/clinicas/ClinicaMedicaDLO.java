@@ -36,7 +36,7 @@ import br.uva.model.user.UsuarioDLO;
 @Service
 public class ClinicaMedicaDLO {
 
-	private final static int RNG_TEST_NUMBER = 26;
+	private final static int RNG_TEST_NUMBER = 1;
 
 	private final static String[] LISTA_NOMES = { "Michael", "Jackson", "Golias", "Almirante", "Nacional", "Japones",
 			"Coreano", "Chinesa", "Arte Milenar", "Jacinto", "Leite", "Milenar", "Teste", "Bangu", "Alameda", "Caxias",
@@ -89,6 +89,34 @@ public class ClinicaMedicaDLO {
 		return ret;
 	}
 
+	@Transactional
+	public void delete (ClinicaMedica clinica) {
+		ClinicaMedica cm = dao.findOne(clinica.getId());
+		cm.getExames().clear();
+		cm.getMedicos().clear();
+		cm.getEspecialidades().clear();
+		dao.save(cm);
+		dao.delete(cm);
+	}
+	
+	public void removeEspecialidade (Especialidade especialidade, ClinicaMedica clinica) {
+		ClinicaMedica cm = dao.findOne(clinica.getId());
+		cm.getEspecialidades().remove(especialidade);
+		dao.save(cm);
+	}
+	
+	public void removeExame (ExameMedico exame, ClinicaMedica clinica) {
+		ClinicaMedica cm = dao.findOne(clinica.getId());
+		cm.getExames().remove(exame);
+		dao.save(cm);
+	}
+	
+	public void removeMedico (MedicoClinica medico, ClinicaMedica clinica) {
+		ClinicaMedica cm = dao.findOne(clinica.getId());
+		cm.getMedicos().remove(medico);
+		dao.save(cm);
+	}
+	
 	public Page<ClinicaMedica> getBuscaClinica(String query, Integer pageNumber) {
 		return busca(query, null, pageNumber);
 	}

@@ -18,6 +18,8 @@ import br.uva.model.clinica.especialidades.Especialidade;
 import br.uva.model.clinica.medicos.MedicoClinica;
 import br.uva.model.clinicas.exames.ExameMedico;
 import br.uva.model.clinicas.pessoas.juridicas.PessoaJuridica;
+import javax.persistence.CascadeType;
+import javax.persistence.JoinTable;
 
 /**
  *

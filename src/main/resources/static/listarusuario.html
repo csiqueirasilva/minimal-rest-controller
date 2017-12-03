@@ -9,11 +9,13 @@
     <busca-rest-th>E-MAIL</busca-rest-th>
     <busca-rest-th>ROLES</busca-rest-th>
     <busca-rest-th>ATIVO</busca-rest-th>
+	<busca-rest-th>EXCLUIR</busca-rest-th>
 
     <busca-rest-td>{{ objeto.username}}</busca-rest-td>
     <busca-rest-td>{{ objeto.email}}</busca-rest-td>
     <busca-rest-td ng-model="objeto.roles" ng-list=",">{{ objeto.roles}}</busca-rest-td>
     <busca-rest-td>{{ objeto.active }}</busca-rest-td>
+	<busca-rest-td><i ng-show="usuarioAtual.username !== objeto.username" class="glyphicon jlink glyphicon-remove btn-row-icon" uib-tooltip="Excluir usuário" ng-click="excluirUsuario($event, objeto)"></i></busca-rest-td>
 </div>
 
 <a href="#!/home/admin"><h3>Voltar</h3></a>

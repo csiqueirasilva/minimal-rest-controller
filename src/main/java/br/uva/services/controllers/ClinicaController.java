@@ -53,6 +53,16 @@ public class ClinicaController {
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable long id) {
+		ClinicaMedica cm = dlo.obterClinica(id);
+		if (cm == null) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+		dlo.delete(cm);
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> updateClinica(@PathVariable long id, @RequestBody ClinicaMedica user) {
 		if (dlo.obterClinica(id) == null) {

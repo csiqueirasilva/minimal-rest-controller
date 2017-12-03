@@ -1,12 +1,17 @@
 package br.uva.model.clinica.especialidades;
 
+import br.uva.model.clinicas.ClinicaMedica;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -27,6 +32,18 @@ public class Especialidade implements Serializable, Comparable<Especialidade> {
 	@Column(unique = true, nullable = false)
 	private String nome;
 
+	@ManyToMany(mappedBy = "especialidades")
+	@JsonIgnore
+	private List<ClinicaMedica> clinicas;
+
+	public List<ClinicaMedica> getClinicas() {
+		return clinicas;
+	}
+
+	public void setClinicas(List<ClinicaMedica> clinicas) {
+		this.clinicas = clinicas;
+	}
+	
 	public Long getId() {
 		return id;
 	}

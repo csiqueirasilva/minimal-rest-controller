@@ -1,5 +1,6 @@
 package br.uva.services.controllers;
 
+import br.uva.model.clinica.medicos.MedicoClinica;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -52,5 +53,16 @@ public class PessoaFisicaController {
 		}
 		usuarioDLO.saveUser(user);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteUser(@PathVariable("id") long id) {
+		PessoaFisica user = dlo.findById(id);
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		dlo.deleteUserById(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

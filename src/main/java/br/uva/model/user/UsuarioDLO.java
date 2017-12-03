@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.uva.model.clinica.buscas.BuscaDLO;
+import br.uva.model.clinicas.pessoas.fisicas.PessoaFisica;
+import java.util.Date;
 
 @Service
 public class UsuarioDLO {
@@ -28,6 +30,10 @@ public class UsuarioDLO {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	public String encodePassword (String str) {
+		return bCryptPasswordEncoder.encode(str);
+	}
+	
 	public RoleUsuario getRole(String str) {
 		RoleUsuario ru = null;
 		try {
@@ -97,4 +103,5 @@ public class UsuarioDLO {
 		return ret;
 
 	}
+
 }

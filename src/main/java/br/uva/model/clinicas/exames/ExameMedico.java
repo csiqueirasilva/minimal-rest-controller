@@ -1,11 +1,16 @@
 package br.uva.model.clinicas.exames;
 
+import br.uva.model.clinicas.ClinicaMedica;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -15,7 +20,7 @@ import javax.persistence.Id;
 public class ExameMedico implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -28,6 +33,18 @@ public class ExameMedico implements Serializable {
 
 	@Column
 	private String informacoesTecnicas;
+
+	@ManyToMany(mappedBy = "exames")
+	@JsonIgnore
+	private List<ClinicaMedica> clinicas;
+
+	public List<ClinicaMedica> getClinicas() {
+		return clinicas;
+	}
+
+	public void setClinicas(List<ClinicaMedica> clinicas) {
+		this.clinicas = clinicas;
+	}
 
 	public Long getId() {
 		return id;

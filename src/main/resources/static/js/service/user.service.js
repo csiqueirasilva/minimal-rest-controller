@@ -5,15 +5,34 @@
         .module('main')
         .factory('UserService', UserService);
 
-    UserService.$inject = ['$http', '$rootScope'];
-    function UserService($http, $rootScope) {
+    function UserService($http, $rootScope, PacienteService, MedicoService, PessoaFisicaService, ClinicaService) {
         var service = {};
 
         service.GetById = GetById;
         service.GetByUsername = GetByUsername;
         service.Setup = Setup;
+		service.GetServiceByType = GetServiceByType;
 
         return service;
+
+		function GetServiceByType(usuario) {
+			var ret = null;
+			if(usuario instanceof Object && usuario.roles instanceof Array) {
+				for(var i = 0; ret === null && i < usuario.roles.length; i++) {
+					var role = usuario.roles[i];
+					if(role.role === "CLINICA") {
+						ret = ClinicaService;
+					} else if (role.role === "MEDICO") {
+						ret = MedicoService;
+					} else if (role.role === "ADMIN") {
+						ret = PessoaFisicaService;
+					} else if (role.role === "PACIENTE") {
+						ret = PacienteService;
+					}
+				}
+			}
+			return ret;
+		}
 
         function Setup(scope, vm, service, window, location, FlashService, AuthenticationService) {
 
@@ -80,8 +99,6 @@
             }
             return register;
         }
-
-
 
         function GetById(id) {
             return $http.get('/user/id/' + id).then(handleSuccess, handleError('Error getting user by id'));

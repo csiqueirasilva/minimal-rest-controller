@@ -1,5 +1,6 @@
 package br.uva.model.clinica.medicos;
 
+import br.uva.model.clinicas.ClinicaMedicaDLO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,37 +11,47 @@ import br.uva.model.user.UsuarioDLO;
 public class MedicoClinicaDLO {
 
 	@Autowired
-	private MedicoClinicaDAO userRepository;
+	private MedicoClinicaDAO dao;
 
+	@Autowired
+	private ClinicaMedicaDLO dlo;
+	
 	@Autowired
 	private UsuarioDLO usuarioDLO;
 
 	public Iterable<MedicoClinica> findAll() {
-		return userRepository.findAll();
+		return dao.findAll();
 	}
 
 	public MedicoClinica findByUsername(String username) {
-		return userRepository.findByUsername(username);
+		return dao.findByUsername(username);
 	}
 
 	public MedicoClinica findById(Long id) {
-		return userRepository.findOne(id);
+		return dao.findOne(id);
 	}
 
 	public void updateUser(MedicoClinica user) {
 		saveUser(user);
 	}
 
+	@Transactional
 	public void deleteUserById(Long id) {
-		userRepository.delete(id);
+		MedicoClinica md = dao.findOne(id);
+		if(md != null) {
+			md.getClinicas().forEach((cm) -> {
+				dlo.removeMedico(md, cm);
+			});
+			dao.delete(id);
+		}
 	}
 
 	public void deleteAllUsers() {
-		userRepository.deleteAll();
+		dao.deleteAll();
 	}
 
 	public Iterable<MedicoClinica> findAllUsers() {
-		return userRepository.findAll();
+		return dao.findAll();
 	}
 
 	public boolean isUserExist(MedicoClinica user) {
@@ -51,7 +62,7 @@ public class MedicoClinicaDLO {
 	public void saveUser(MedicoClinica user) {
 		try {
 			usuarioDLO.addRoleToUserByName(user, "MEDICO");
-			userRepository.save(user);
+			dao.save(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

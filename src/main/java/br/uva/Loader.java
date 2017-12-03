@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import br.uva.model.clinica.especialidades.EspecialidadeDLO;
 import br.uva.model.clinicas.ClinicaMedicaDLO;
+import br.uva.model.clinicas.pessoas.fisicas.PessoaFisicaDLO;
+import br.uva.model.user.UsuarioDLO;
 
 /**
  *
@@ -17,6 +19,9 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
 
 	@Autowired
 	private ClinicaMedicaDLO dlo;
+	
+	@Autowired
+	private PessoaFisicaDLO dloUsuario;
 
 	@Autowired
 	private EspecialidadeDLO especialidadesDLO;
@@ -25,5 +30,6 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		especialidadesDLO.criarEspecialidades();
 		dlo.criarDadosTeste();
+		dloUsuario.criarUsuarioRoot();
 	}
 }

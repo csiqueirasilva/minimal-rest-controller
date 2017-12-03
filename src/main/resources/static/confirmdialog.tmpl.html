@@ -1,0 +1,20 @@
+<md-dialog>
+	<form ng-cloak>
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Excluir usuário</h2>
+			</div>
+		</md-toolbar>
+
+		<md-dialog-content>
+			<div class="md-dialog-content">
+				<p ng-bind-html="texto"></p>
+			</div>
+		</md-dialog-content>
+
+		<md-dialog-actions layout="row">
+			<md-button class="md-primary md-no-focus" ng-click="resposta(true)">Sim</md-button>
+			<md-button class="md-no-focus" ng-click="resposta(false)">Não</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>

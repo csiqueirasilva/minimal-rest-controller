@@ -57,7 +57,7 @@
         }
 		
 		function IsAuthenticated() {
-			return $cookies.get('usuarioAtual') && $rootScope.usuarioAtual && $rootScope.usuarioAtual !== {} && $rootScope.usuarioAtual.role;
+			return $cookies.get('usuarioAtual') || ($rootScope.usuarioAtual && $rootScope.usuarioAtual !== {} && $rootScope.usuarioAtual.role);
 		}
 		
 		function ReloadUserFromCookie() {

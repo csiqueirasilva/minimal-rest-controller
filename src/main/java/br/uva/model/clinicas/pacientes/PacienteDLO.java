@@ -45,8 +45,12 @@ public class PacienteDLO {
 		saveUser(user);
 	}
 
+	@Transactional
 	public void deleteUserById(Long id) {
-		dao.delete(id);
+		Paciente p = dao.findOne(id);
+		p.getClinicas().clear();
+		dao.save(p);
+		dao.delete(p);
 	}
 
 	public void deleteAllUsers() {
