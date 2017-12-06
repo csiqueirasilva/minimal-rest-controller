@@ -20,4 +20,17 @@
 	<span ng-show="(form.telefone.$dirty || form.telefone.$touched) && form.telefone.$error.required" class="help-block">O telefone é obrigatório</span>
 </div>
 
+<label>Telefones de contato</label>
+
+<div class="form-group" ng-class="{ 'has-error': (form.especialidades.$dirty || form.especialidades.$touched) && form.especialidades.$invalid }">
+        <tags-input ng-model="vm.user.telefonesDeContato" 
+                    placeholder="Adicionar telefone de contato" 
+                    min-length="8"
+                    max-length="8"
+                    use-strings="true"
+                    allowed-tags-pattern="^[0-9]{8}$">
+        </tags-input>
+        <span ng-show="(form.exames.$dirty || form.exames.$touched) && form.exames.$error.minTags" class="help-block">Ao menos um exame é necessário</span>
+</div>
+
 <div ng-include="'form/usuario.html'"></div>
